@@ -9,7 +9,7 @@ A lightweight plugin for Minecraft for replacing boring old vanilla Minecraft pl
 - 🔥 **Lightweight & Fast** (powered with packets)
 - ✏️ **Full** Customizability!
 - ☀️ Supports [**MiniMessage Formatting**](https://webui.advntr.dev/)
-- 🔠 Supports [**PlaceholderAPI**]([https://github.com/PlaceholderAPI/PlaceholderAPI/releases](https://github.com/PlaceholderAPI/PlaceholderAPI/releases))
+- 🔠 Supports [**PlaceholderAPI**](https://github.com/PlaceholderAPI/PlaceholderAPI/releases)
 
 ## Installation
 - Requires **Paper 1.21.5+** (**Spigot** is **not** supported)
