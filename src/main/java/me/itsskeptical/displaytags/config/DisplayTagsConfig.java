@@ -9,6 +9,7 @@ import java.util.List;
 public class DisplayTagsConfig {
     private final DisplayTags plugin;
 
+    private boolean nametagsEnabled;
     private boolean showSelfNametag;
     private int nametagUpdateInterval;
     private int nametagVisibilityDistance;
@@ -24,6 +25,7 @@ public class DisplayTagsConfig {
     public void load() {
         FileConfiguration config = plugin.getConfig();
 
+        this.nametagsEnabled = config.getBoolean("nametags.enabled", true);
         this.showSelfNametag = config.getBoolean("nametags.show-self", true);
         this.nametagUpdateInterval = (config.getInt("nametags.update-interval", 1)) * 20;
         this.nametagVisibilityDistance = config.getInt("nametags.visibility-distance", 32);
@@ -33,7 +35,11 @@ public class DisplayTagsConfig {
         this.nametagLines = config.getStringList("nametags.lines");
     }
 
-    public boolean getShowSelfNametag() {
+    public boolean isNametagsEnabled() {
+        return nametagsEnabled;
+    }
+
+    public boolean isShowSelfNametag() {
         return showSelfNametag;
     }
 

@@ -1,6 +1,6 @@
 package me.itsskeptical.displaytags.nametags;
 
-import me.itsskeptical.displaytags.DisplayTags;
+import me.itsskeptical.displaytags.utils.VanillaNametagHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -24,10 +24,6 @@ public class NametagManager {
         return nametags.values();
     }
 
-    public boolean has(Player player) {
-        return nametags.containsKey(player.getUniqueId());
-    }
-
     public void createAll() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             this.create(player);
@@ -48,6 +44,13 @@ public class NametagManager {
 
     public void delete(Player player) {
         Nametag nametag = this.nametags.get(player.getUniqueId());
+        for (UUID uuid : nametag.getViewers()) {
+            Player viewer = Bukkit.getPlayer(uuid);
+            if (viewer != null) {
+                VanillaNametagHandler.showVanillaNametag(player, viewer);
+            }
+        }
+
         nametag.hideForAll();
         this.nametags.remove(player.getUniqueId());
     }

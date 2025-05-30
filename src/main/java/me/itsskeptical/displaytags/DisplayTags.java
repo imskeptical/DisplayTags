@@ -3,12 +3,9 @@ package me.itsskeptical.displaytags;
 import me.itsskeptical.displaytags.commands.DisplayTagsCommand;
 import me.itsskeptical.displaytags.config.DisplayTagsConfig;
 import me.itsskeptical.displaytags.listeners.PlayerListener;
-import me.itsskeptical.displaytags.nametags.Nametag;
 import me.itsskeptical.displaytags.nametags.NametagManager;
 import me.itsskeptical.displaytags.nametags.NametagScheduler;
 import me.itsskeptical.displaytags.utils.PlaceholdersHelper;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class DisplayTags extends JavaPlugin {
@@ -31,6 +28,7 @@ public final class DisplayTags extends JavaPlugin {
         nametags = new NametagManager();
         nametagScheduler = new NametagScheduler(this);
         nametagScheduler.start();
+
         PlaceholdersHelper.load();
 
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
@@ -60,7 +58,9 @@ public final class DisplayTags extends JavaPlugin {
 
         nametagScheduler.stop();
         nametags.deleteAll();
-        nametags.createAll();
+        if (config().isNametagsEnabled()) {
+            nametags.createAll();
+        }
         nametagScheduler.start();
 
         getLogger().info("Reloaded!");

@@ -5,6 +5,9 @@
 # To apply any changes you make here, run: /displaytags reload
 
 nametags:
+  # Enable the nametags.
+  # Set this to false if you want the vanilla player nametags shown instead.
+  enabled: true
 
   # Should players see their own nametag?
   # Set to true to show your own nametag above your head (in first-person view).

@@ -22,25 +22,30 @@ public class NametagScheduler {
     }
 
     public void start() {
-        plugin.getLogger().info("Starting Nametag scheduler...");
-        int interval = plugin.config().getNametagUpdateInterval();
+        if (plugin.config().isNametagsEnabled()) {
+            plugin.getLogger().info("Starting Nametag scheduler...");
+            int interval = plugin.config().getNametagUpdateInterval();
 
-        if (isFolia) {
-            GlobalRegionScheduler scheduler = Bukkit.getGlobalRegionScheduler();
-            foliaTask = scheduler.runAtFixedRate(
-                    plugin,
-                    (scheduledTask) -> {
-                        for (Nametag nametag : nametags.getAll()) {
-                            nametag.updateForAll();
-                        }
-                    }, interval, interval
-            );
+            if (isFolia) {
+                GlobalRegionScheduler scheduler = Bukkit.getGlobalRegionScheduler();
+                foliaTask = scheduler.runAtFixedRate(
+                        plugin,
+                        (scheduledTask) -> {
+                            for (Nametag nametag : nametags.getAll()) {
+                                nametag.updateForAll();
+                            }
+                        }, interval, interval
+                );
+            } else {
+                bukkitTask = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+                    for (Nametag nametag : nametags.getAll()) {
+                        nametag.updateForAll();
+                    }
+                }, interval, interval);
+            }
         } else {
-            bukkitTask = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
-                for (Nametag nametag : nametags.getAll()) {
-                    nametag.updateForAll();
-                }
-            }, interval, interval);
+            plugin.getLogger().warning("Nametags are disabled for this server, therefore the nametag scheduler has not been started.");
+            plugin.getLogger().warning("If you want to enable the nametags again, enable them in config.yml and run /displaytags reload.");
         }
     }
 

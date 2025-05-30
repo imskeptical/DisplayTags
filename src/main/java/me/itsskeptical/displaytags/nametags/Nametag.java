@@ -5,6 +5,7 @@ import me.itsskeptical.displaytags.DisplayTags;
 import me.itsskeptical.displaytags.displays.ClientTextDisplay;
 import me.itsskeptical.displaytags.utils.Components;
 import me.itsskeptical.displaytags.utils.PlaceholdersHelper;
+import me.itsskeptical.displaytags.utils.VanillaNametagHandler;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -28,11 +29,15 @@ public class Nametag {
     public Player getPlayer() {
         return this.player;
     }
+    public Set<UUID> getViewers() {
+        return this.viewers;
+    }
 
     public void show(Player viewer) {
         if (this.player.isDead()) return;
-        if ((viewer.getUniqueId() == this.player.getUniqueId()) && !plugin.config().getShowSelfNametag()) return;
+        if ((viewer.getUniqueId() == this.player.getUniqueId()) && !plugin.config().isShowSelfNametag()) return;
 
+        VanillaNametagHandler.hideNametag(this.player, viewer);
         this.display.spawn(viewer);
         this.display.mount(this.player, viewer);
         this.viewers.add(viewer.getUniqueId());
@@ -46,7 +51,7 @@ public class Nametag {
 
     public void update(Player viewer) {
         if (this.player.isDead()) return;
-        if ((viewer.getUniqueId() == this.player.getUniqueId()) && !plugin.config().getShowSelfNametag()) return;
+        if ((viewer.getUniqueId() == this.player.getUniqueId()) && !plugin.config().isShowSelfNametag()) return;
 
         this.display.setTextShadow(true);
         this.display.setBillboard(plugin.config().getNametagBillboard());
@@ -82,7 +87,7 @@ public class Nametag {
         }
 
         for (Player viewer : Bukkit.getOnlinePlayers()) {
-            if ((viewer.getUniqueId() == this.player.getUniqueId()) && !plugin.config().getShowSelfNametag()) return;
+            if ((viewer.getUniqueId() == this.player.getUniqueId()) && !plugin.config().isShowSelfNametag()) return;
 
             boolean isVisible = viewers.contains(viewer.getUniqueId());
             boolean shouldBeVisible = canSee(viewer);
