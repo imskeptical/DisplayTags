@@ -1,7 +1,7 @@
 # DisplayTags
 [![generic](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/documentation/generic_vector.svg)](https://github.com/imskeptical/DisplayTags/wiki)
 [![github](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/github_vector.svg)](https://github.com/imskeptical/DisplayTags)
-[![modrinth](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg)]([https://modrinth.com/project/voqEPXf8](https://modrinth.com/project/voqEPXf8))
+[![modrinth](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg)](https://modrinth.com/project/voqEPXf8)
 
 > A lightweight plugin for Minecraft for replacing boring old vanilla Minecraft player nametags with fast & customizable text displays!
 
