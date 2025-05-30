@@ -2,6 +2,7 @@ name: DisplayTags
 version: '0.0.1'
 main: me.itsskeptical.displaytags.DisplayTags
 api-version: '1.21'
+folia-supported: true
 authors: [ SkyyIsCool ]
 description: A plugin that replaces boring player name tags with customizable text displays!
 dependencies:
