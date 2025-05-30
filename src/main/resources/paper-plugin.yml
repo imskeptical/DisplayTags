@@ -1,0 +1,14 @@
+name: DisplayTags
+version: '0.0.1'
+main: me.itsskeptical.displaytags.DisplayTags
+api-version: '1.21'
+authors: [ SkyyIsCool ]
+description: A plugin that replaces boring player name tags with customizable text displays!
+dependencies:
+  server:
+    packetevents:
+      load: BEFORE
+      required: true
+    PlaceholderAPI:
+      load: BEFORE
+      required: false
