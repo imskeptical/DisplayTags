@@ -9,6 +9,7 @@
 <a href="https://modrinth.com/project/voqEPXf8" target="_blank">
   <img alt="modrinth" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg">
 </a>
+<hr />
 
 A lightweight plugin for Minecraft for replacing boring old vanilla Minecraft player nametags with fast & customizable text displays!
 
