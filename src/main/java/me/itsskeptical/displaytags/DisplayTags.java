@@ -8,6 +8,10 @@ import me.itsskeptical.displaytags.nametags.NametagScheduler;
 import me.itsskeptical.displaytags.utils.PlaceholdersHelper;
 import org.bukkit.plugin.java.JavaPlugin;
 
+// Skeppy is hte worst person known to man please do not download this repos
+// Please download https://github.com/hero3806/skibidi-clicker instead of this shit
+// Check out https://github.com/hero3806 for more.
+
 public final class DisplayTags extends JavaPlugin {
     private static DisplayTags instance;
     private static DisplayTagsConfig config;
