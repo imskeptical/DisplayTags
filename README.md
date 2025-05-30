@@ -4,14 +4,14 @@ A lightweight plugin for Minecraft for replacing boring old vanilla Minecraft pl
 
 ❗ **NOTE** This plugin is powered by [PacketEvents v2.8.0](https://modrinth.com/plugin/packetevents). It is a **required dependency**. Please install it along with **DisplayTags**, otherwise it will not work!
 
-# Features
+## Features
 - 🔗 **Custom** Player Nametags
 - 🔥 **Lightweight & Fast** (powered with packets)
 - ✏️ **Full** Customizability!
 - ☀️ Supports [**MiniMessage Formatting**](https://webui.advntr.dev/)
 - 🔠 Supports [**PlaceholderAPI**]([https://github.com/PlaceholderAPI/PlaceholderAPI/releases](https://github.com/PlaceholderAPI/PlaceholderAPI/releases))
 
-# Installation
+## Installation
 - Requires **Paper 1.21.5+** (**Spigot** is **not** supported)
 - Requires [**PacketEvents v2.8.0+**]([https://modrinth.com/plugin/packetevents](https://modrinth.com/plugin/packetevents))
 
