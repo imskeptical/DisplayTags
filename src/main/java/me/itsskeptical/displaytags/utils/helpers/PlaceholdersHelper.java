@@ -1,4 +1,4 @@
-package me.itsskeptical.displaytags.utils;
+package me.itsskeptical.displaytags.utils.helpers;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;

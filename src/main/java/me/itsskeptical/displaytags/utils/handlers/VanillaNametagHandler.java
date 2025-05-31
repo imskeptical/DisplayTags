@@ -1,4 +1,4 @@
-package me.itsskeptical.displaytags.utils;
+package me.itsskeptical.displaytags.utils.handlers;
 
 import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerTeams;

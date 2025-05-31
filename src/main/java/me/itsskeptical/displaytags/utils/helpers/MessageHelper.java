@@ -1,5 +1,6 @@
-package me.itsskeptical.displaytags.utils;
+package me.itsskeptical.displaytags.utils.helpers;
 
+import me.itsskeptical.displaytags.utils.Components;
 import org.bukkit.command.CommandSender;
 
 public class MessageHelper {
