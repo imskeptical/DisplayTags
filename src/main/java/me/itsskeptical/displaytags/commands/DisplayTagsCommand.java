@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public class DisplayTagsCommand extends Command {
     private final DisplayTags plugin;
@@ -47,9 +48,9 @@ public class DisplayTagsCommand extends Command {
     }
 
     @Override
-    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+    public List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, String[] args) throws IllegalArgumentException {
         if (args.length == 1) {
-            return List.of("reload", "version").stream()
+            return Stream.of("reload", "version")
                     .filter((option) -> option.startsWith(args[0].toLowerCase()))
                     .toList();
         }
