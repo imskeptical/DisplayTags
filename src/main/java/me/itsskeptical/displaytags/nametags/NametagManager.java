@@ -1,6 +1,6 @@
 package me.itsskeptical.displaytags.nametags;
 
-import me.itsskeptical.displaytags.utils.VanillaNametagHandler;
+import me.itsskeptical.displaytags.utils.handlers.VanillaNametagHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

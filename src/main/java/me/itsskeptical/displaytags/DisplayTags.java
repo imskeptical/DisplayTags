@@ -5,7 +5,8 @@ import me.itsskeptical.displaytags.config.DisplayTagsConfig;
 import me.itsskeptical.displaytags.listeners.PlayerListener;
 import me.itsskeptical.displaytags.nametags.NametagManager;
 import me.itsskeptical.displaytags.nametags.NametagScheduler;
-import me.itsskeptical.displaytags.utils.PlaceholdersHelper;
+import me.itsskeptical.displaytags.utils.Metrics;
+import me.itsskeptical.displaytags.utils.Util;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class DisplayTags extends JavaPlugin {
@@ -19,20 +20,27 @@ public final class DisplayTags extends JavaPlugin {
         // Plugin startup logic
         instance = this;
 
+        // Setup Configuration
         if (!getDataFolder().exists()) getDataFolder().mkdirs();
         saveDefaultConfig();
-
         config = new DisplayTagsConfig(this);
         config.load();
 
+        // Load Utilities
+        Util.load();
+
+        // Setup Nametag Manager & Scheduler
         nametags = new NametagManager();
         nametagScheduler = new NametagScheduler(this);
         nametagScheduler.start();
 
-        PlaceholdersHelper.load();
-
+        // Register Listeners & Commands
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         registerCommands();
+
+        // Metrics
+        int pluginId = 26048;
+        new Metrics(this, pluginId);
 
         getLogger().info("Enabled.");
     }

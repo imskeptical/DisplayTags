@@ -1,13 +1,9 @@
 package me.itsskeptical.displaytags.commands;
 
 import me.itsskeptical.displaytags.DisplayTags;
-import me.itsskeptical.displaytags.nametags.Nametag;
-import me.itsskeptical.displaytags.nametags.NametagManager;
-import me.itsskeptical.displaytags.utils.MessageHelper;
-import org.bukkit.Bukkit;
+import me.itsskeptical.displaytags.utils.helpers.MessageHelper;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

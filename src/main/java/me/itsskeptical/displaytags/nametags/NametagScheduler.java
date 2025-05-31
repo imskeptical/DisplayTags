@@ -3,7 +3,7 @@ package me.itsskeptical.displaytags.nametags;
 import io.papermc.paper.threadedregions.scheduler.GlobalRegionScheduler;
 import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import me.itsskeptical.displaytags.DisplayTags;
-import me.itsskeptical.displaytags.utils.PluginHelper;
+import me.itsskeptical.displaytags.utils.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -18,7 +18,7 @@ public class NametagScheduler {
     public NametagScheduler(DisplayTags plugin) {
         this.plugin = plugin;
         this.nametags = DisplayTags.getNametagManager();
-        this.isFolia = PluginHelper.isFolia();
+        this.isFolia = Util.isFolia();
     }
 
     public void start() {
