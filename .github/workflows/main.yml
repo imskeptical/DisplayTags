@@ -3,6 +3,10 @@ on:
   release:
     types: [released]
   workflow_dispatch:
+    inputs:
+      version:
+        description: "The plugin version to publish"
+        required: true
     
 jobs:
   publish:
@@ -25,6 +29,15 @@ jobs:
       - name: Build the plugin
         run: ./gradlew clean build
 
+      - name: Determine version
+        id: get_version
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+          fi
+
       - name: Publish to Modrinth
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
@@ -32,6 +45,7 @@ jobs:
           modrinth-featured: true
           modrinth-unfeature-mode: subset
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          version: ${{ steps.get_version.outputs.version }}
 
           game-versions: |
             >=1.21
