@@ -47,6 +47,11 @@ jobs:
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           version: ${{ steps.get_version.outputs.version }}
 
+          changelog: |
+            - "# DisplayTags ${{ steps.get_version.outputs.version }}"
+            - "This is the first release of DisplayTags. Install the plugin into your server and it should start working instantly. Configure it to your liking in `config.yml` and use `/displaytags reload` to apply the changes."
+            - "⚠️ Issues & bugs are expected, if you find any, please report [here](https://github.com/imskeptical/DisplayTags/issues)!"
+
           game-versions: |
             >=1.21
           loaders: paper
