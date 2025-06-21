@@ -1,0 +1,78 @@
+import xyz.jpenilla.runtask.task.AbstractRun
+
+plugins {
+    id 'java'
+    id("xyz.jpenilla.run-paper") version "2.3.1"
+}
+
+group = 'me.itsskeptical'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "papermc-repo"
+        url = "https://repo.papermc.io/repository/maven-public/"
+    }
+    maven {
+        name = "sonatype"
+        url = "https://oss.sonatype.org/content/groups/public/"
+    }
+    maven { url = "https://repo.codemc.io/repository/maven-releases/" }
+    maven { url = "https://repo.codemc.io/repository/maven-snapshots/" }
+    maven { url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
+}
+
+dependencies {
+    compileOnly("io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT")
+    implementation("net.kyori:adventure-api:4.22.0")
+    implementation("net.kyori:adventure-text-minimessage:4.22.0")
+    implementation("net.kyori:adventure-text-serializer-legacy:4.22.0")
+    compileOnly("com.github.retrooper:packetevents-spigot:2.8.0")
+    compileOnly("me.clip:placeholderapi:2.11.6")
+}
+
+tasks {
+    runServer {
+        minecraftVersion("1.21.5")
+        downloadPlugins {
+            modrinth("packetevents", "2.8.0")
+            hangar("PlaceholderAPI", "2.11.6")
+        }
+    }
+}
+
+def targetJavaVersion = 21
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        options.release.set(targetJavaVersion)
+    }
+}
+
+tasks.withType(AbstractRun.class).configureEach {
+    javaLauncher = javaToolchains.launcherFor {
+        vendor = JvmVendorSpec.JETBRAINS
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+    jvmArgs("-XX:+AllowEnhancedClassRedefinition")
+}
+
+processResources {
+    def props = [version: version]
+    inputs.properties props
+    filteringCharset 'UTF-8'
+    filesMatching('paper-plugin.yml') {
+        expand props
+    }
+}

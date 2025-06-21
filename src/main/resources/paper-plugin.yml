@@ -1,0 +1,14 @@
+name: DisplayTags
+version: '1.0.0'
+main: me.itsskeptical.displaytags.DisplayTags
+api-version: '1.21'
+authors: [ SkyyIsCool ]
+description: Replace vanilla player nametags with fast & customizable text entities!
+dependencies:
+  server:
+    packetevents:
+      required: true
+      load: BEFORE
+    PlaceholderAPI:
+      required: false
+      load: BEFORE

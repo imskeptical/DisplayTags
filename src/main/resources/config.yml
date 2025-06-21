@@ -1,0 +1,65 @@
+# ---------------------------------- #
+#         DisplayTags Config         #
+# ---------------------------------- #
+# This is the configuration file for DisplayTags.
+# To apply any changes you make here, run: /displaytags reload
+# Wiki: https://github.com/imskeptical/DisplayTags/wiki
+
+nametags:
+  # Enable the nametags.
+  # Set this to false if you want the vanilla player nametags shown instead.
+  enabled: true
+
+  # Should players see their own nametag?
+  # Set to true to show your own nametag above your head (in first-person view).
+  # Set to false to hide it.
+  show-self: true
+
+  # How often nametags should update (in seconds).
+  # Lower = more frequent updates = more accurate, but slightly more CPU usage.
+  # Recommended: 1 second
+  update-interval: 1
+
+  # How far away other players must be to see someone's nametag (in blocks).
+  # Example: 32 = players can see nametags from up to 32 blocks away.
+  visibility-distance: 32
+
+  # Nametag Text Display Properties
+  display:
+    # The lines of text shown on the nametag, top to bottom.
+    # Supports MiniMessage formatting: https://webui.advntr.dev/
+    # PlaceholderAPI is supported for dynamic data.
+    #
+    # Built-in placeholders (no extra plugin needed):
+    # {player}  - Player's name
+    # {health}  - Player's current health (e.g. 20)
+    lines:
+      - "{player}"
+
+    # Enable text shadow for the text display of a nametag.
+    # Available values: true, false
+    text-shadow: true
+
+    # Should the text display of nametags be see through?
+    # Available values: true, false
+    see-through: false
+
+    # The text alignment of the nametag's text display.
+    # Available values: left, right, center
+    text-alignment: "center"
+
+    # The background color of the nametag's text display.
+    # Use a hex color (like "#FFFFFF" for white), or "transparent" for no background.
+    # Available values (excluding hex colors): default, transparent
+    background: "default"
+
+    # The billboard of the nametag's display.
+    # Available values: fixed, vertical, horizontal, center
+    billboard: "center"
+
+    # The scale of the nametag's display.
+    # This can be used to change the size of the nametag.
+    scale:
+      x: 1
+      y: 1
+      z: 1
