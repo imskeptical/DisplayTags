@@ -34,7 +34,8 @@ nametags:
     # {player}  - Player's name
     # {health}  - Player's current health (e.g. 20)
     lines:
-      - "{player}"
+      - "<gray>{player}</gray>"
+      - "<red>❤ <white>{health}"
 
     # Enable text shadow for the text display of a nametag.
     # Available values: true, false
