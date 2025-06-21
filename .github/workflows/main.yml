@@ -20,6 +20,9 @@ jobs:
           distribution: "temurin"
           java-version: 21
 
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
       - name: Build the plugin
         run: ./gradlew clean build
 
@@ -30,3 +33,13 @@ jobs:
           modrinth-featured: true
           modrinth-unfeature-mode: subset
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+
+          game-versions: |
+            1.21
+            1.21.1
+            1.21.2
+            1.21.3
+            1.21.4
+            1.21.5
+          loaders: paper
+          dependencies: packetevents@2.8.0(required)
