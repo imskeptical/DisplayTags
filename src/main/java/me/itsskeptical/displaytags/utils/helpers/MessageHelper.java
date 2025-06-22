@@ -8,10 +8,15 @@ import java.util.List;
 public class MessageHelper {
     private static final String PREFIX = "<#00BFFF>DisplayTags";
     static String SUCCESS = "<#7EFF00>";
+    static String WARN = "<#FFFF00>";
     static String DANGER = "<#FF0000>";
 
     public static void success(CommandSender sender, String message) {
         send(sender, format("{success} <reset>{success_color}" + message));
+    }
+
+    public static void warning(CommandSender sender, String message) {
+        send(sender, format("{warn} <reset>{warn_color}" + message));
     }
 
     public static void error(CommandSender sender, String message) {
@@ -33,9 +38,13 @@ public class MessageHelper {
     private static String format(String input) {
         return input
                 .replace("{prefix}", PREFIX)
-                .replace("{success}", "<dark_gray>[{success_color}✔<dark_gray>]")
-                .replace("{danger}", "<dark_gray>[{danger_color}❌<dark_gray>]")
+                .replace("{success}", "{start}{success_color}✔{end}")
+                .replace("{warn}", "{start}{warn_color}⚠{end}")
+                .replace("{danger}", "{start}{danger_color}❌{end}")
                 .replace("{success_color}", SUCCESS)
-                .replace("{danger_color}", DANGER);
+                .replace("{warn_color}", WARN)
+                .replace("{danger_color}", DANGER)
+                .replace("{start}", "<dark_gray>[")
+                .replace("{end}", "<dark_gray>]");
     }
 }
