@@ -46,7 +46,7 @@ public final class DisplayTags extends JavaPlugin {
 
         // Other
         DependencyHelper.load();
-        checkForUpdates((CommandSender) getServer());
+        checkForUpdates(getServer().getConsoleSender());
 
         String version = getPluginMeta().getVersion();
         getLogger().info(String.format("DisplaysTags v%s has been enabled.", version));
