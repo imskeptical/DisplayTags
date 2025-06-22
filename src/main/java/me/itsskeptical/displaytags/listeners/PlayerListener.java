@@ -20,6 +20,10 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
+        if (event.getPlayer().hasPermission("displaytags.admin")) {
+            plugin.checkForUpdates(event.getPlayer());
+        }
+
         if (plugin.config().getNametagConfig().isEnabled()) {
             // Delay by 10 ticks
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
