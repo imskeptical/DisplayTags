@@ -49,7 +49,7 @@ public class PlayerListener implements Listener {
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         if (plugin.config().getNametagConfig().isEnabled()) {
             Nametag nametag = nametagManager.get(event.getPlayer());
-            nametag.updateVisibility();
+            nametag.updateVisibilityForAll();
         }
     }
 
@@ -60,7 +60,7 @@ public class PlayerListener implements Listener {
             if (event.getNewGameMode() == GameMode.SPECTATOR) {
                 nametag.hideForAll();
             } else if (event.getPlayer().getPreviousGameMode() == GameMode.SPECTATOR) {
-                nametag.updateVisibility();
+                nametag.updateVisibilityForAll();
             }
         }
     }

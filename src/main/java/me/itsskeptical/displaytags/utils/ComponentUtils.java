@@ -14,22 +14,24 @@ public class ComponentUtils {
             .character('&')
             .useUnusualXRepeatedCharacterHexFormat()
             .build();
+    private static final JoinConfiguration joinConfig = JoinConfiguration.separator(Component.newline());
 
     public static Component format(String input) {
-        Component legacy = LEGACY_SERIALIZER.deserialize(input.replace('§', '&'));
-        String modern = MINI_MESSAGE.serialize(legacy).replace("\\", "");
+        String sanitized = input.indexOf('§') != -1
+                ? input.replace('§', '&')
+                : input;
+        sanitized = sanitized.indexOf('\\') != -1
+                ? sanitized.replace("\\", "")
+                : sanitized;
+        Component legacy = LEGACY_SERIALIZER.deserialize(sanitized);
+        String modern = MINI_MESSAGE.serialize(legacy);
         return MINI_MESSAGE.deserialize(modern);
     }
 
     public static Component format(List<String> lines) {
-        List<Component> components = new ArrayList<>();
-        for (String line : lines) {
-            components.add(format(line));
-        }
-
-        return Component.join(
-                JoinConfiguration.separator(Component.newline()),
-                components
-        );
+        List<Component> components = lines.parallelStream()
+                .map(ComponentUtils::format)
+                .toList();
+        return Component.join(joinConfig, components);
     }
 }

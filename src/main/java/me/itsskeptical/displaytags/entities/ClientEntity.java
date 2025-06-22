@@ -44,7 +44,7 @@ public class ClientEntity {
         return new ArrayList<>();
     }
 
-    public void spawn(Player... viewers) {
+    public void spawn(Player viewer) {
         WrapperPlayServerSpawnEntity packet = new WrapperPlayServerSpawnEntity(
                 this.entityId,
                 this.uuid,
@@ -54,35 +54,33 @@ public class ClientEntity {
                 0,
                 null
         );
-        this.sendPacket(packet, viewers);
+        this.sendPacket(packet, viewer);
     }
 
-    public void update(Player... viewers) {
+    public void update(Player viewer) {
         WrapperPlayServerEntityMetadata packet = new WrapperPlayServerEntityMetadata(
                 this.entityId,
                 this.getEntityData()
         );
-        this.sendPacket(packet, viewers);
+        this.sendPacket(packet, viewer);
     }
 
-    public void despawn(Player... viewers) {
+    public void despawn(Player viewer) {
         WrapperPlayServerDestroyEntities packet = new WrapperPlayServerDestroyEntities(
                 this.entityId
         );
-        this.sendPacket(packet, viewers);
+        this.sendPacket(packet, viewer);
     }
 
-    public void mount(Entity entity, Player... viewers) {
+    public void mount(Entity entity, Player viewer) {
         WrapperPlayServerSetPassengers packet = new WrapperPlayServerSetPassengers(
                 entity.getEntityId(),
                 new int[] { this.entityId }
         );
-        this.sendPacket(packet, viewers);
+        this.sendPacket(packet, viewer);
     }
 
-    private void sendPacket(PacketWrapper<?> packet, Player... players) {
-        for (Player player : players) {
-            PacketEvents.getAPI().getPlayerManager().sendPacket(player, packet);
-        }
+    private void sendPacket(PacketWrapper<?> packet, Player player) {
+        PacketEvents.getAPI().getPlayerManager().sendPacket(player, packet);
     }
 }
