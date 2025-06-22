@@ -15,7 +15,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 
 import java.util.*;
 
@@ -25,11 +24,28 @@ public class Nametag {
     private final ClientTextDisplay display;
     private final Set<UUID> viewers;
 
+    private final List<String> lines;
+    private final boolean hideSelf;
+    private final int visibilityDistance;
+
     public Nametag(Player player) {
         this.plugin = DisplayTags.getInstance();
         this.player = player;
-        this.display = new ClientTextDisplay(player.getLocation().setRotation(0, 0));
         this.viewers = new HashSet<>();
+
+        NametagConfig config = plugin.config().getNametagConfig();
+        this.lines = config.getLines();
+        this.hideSelf = config.shouldHideSelf();
+        this.visibilityDistance = config.getVisibilityDistance();
+
+        this.display = new ClientTextDisplay(player.getLocation().setRotation(0, 0));
+        this.display.setTranslation(new Vector3f(0, (float) 0.25, 0));
+        this.display.setScale(config.getScale());
+        this.display.setTextShadow(config.hasTextShadow());
+        this.display.setTextAlignment(TextAlignment.valueOf(config.getTextAlignment().toUpperCase()));
+        this.display.setSeeThrough(config.isSeeThrough());
+        this.display.setBillboard(DisplayBillboard.valueOf(config.getBillboard().toUpperCase()));
+        this.display.setBackground(getBackground());
     }
 
     public Player getPlayer() {
@@ -48,7 +64,7 @@ public class Nametag {
         }
     }
 
-    public void updateVisibility() {
+    public void updateVisibilityForAll() {
         for (Player viewer : Bukkit.getOnlinePlayers()) {
             boolean shouldSee = shouldSee(viewer);
             boolean isVisible = this.viewers.contains(viewer.getUniqueId());
@@ -66,18 +82,17 @@ public class Nametag {
     }
 
     private boolean shouldSee(Player viewer) {
-        if (plugin.config().getNametagConfig().shouldHideSelf() && player.getUniqueId().equals(viewer.getUniqueId())) return false;
+        if (viewer == null || !viewer.isOnline() || viewer.isDead()) return false;
+        if (hideSelf && player.getUniqueId().equals(viewer.getUniqueId())) return false;
         if (player.isDead() || player.getGameMode().equals(GameMode.SPECTATOR)) return false;
-        if (!viewer.isOnline() || viewer.isDead()) return false;
         if (!viewer.getWorld().getName().equals(player.getWorld().getName())) return false;
 
-        int visibilityDistance = plugin.config().getNametagConfig().getVisibilityDistance();
         return viewer.getLocation().distanceSquared(player.getLocation()) < visibilityDistance * visibilityDistance;
     }
 
     public void show(Player viewer) {
         VanillaNametagHandler.hide(player, viewer);
-        if (plugin.config().getNametagConfig().shouldHideSelf() && player.getUniqueId().equals(viewer.getUniqueId())) return;
+        if (hideSelf && player.getUniqueId().equals(viewer.getUniqueId())) return;
 
         this.viewers.add(viewer.getUniqueId());
         this.display.spawn(viewer);
@@ -90,30 +105,15 @@ public class Nametag {
     }
 
     public void update(Player viewer) {
-        NametagConfig config = plugin.config().getNametagConfig();
-        boolean textShadow = config.hasTextShadow();
-        boolean seeThrough = config.isSeeThrough();
-        String textAlignment = config.getTextAlignment();
-        String billboard = config.getBillboard();
-        Vector scale = config.getScale();
-
         this.display.setLocation(player.getLocation());
         this.display.setText(getText());
-        this.display.setTextShadow(textShadow);
-        this.display.setTextAlignment(TextAlignment.valueOf(textAlignment.toUpperCase()));
-        this.display.setSeeThrough(seeThrough);
-        this.display.setBackground(getBackground());
-        this.display.setBillboard(DisplayBillboard.valueOf(billboard.toUpperCase()));
-        this.display.setTranslation(new Vector3f(0, (float) 0.25, 0));
-        this.display.setScale(scale);
         this.display.mount(this.player, viewer);
         this.display.update(viewer);
     }
 
     private Component getText() {
-        List<String> lines = new ArrayList<>();
-        List<String> rawLines = plugin.config().getNametagConfig().getLines();
-        rawLines.forEach((line) -> {
+        List<String> text = new ArrayList<>();
+        this.lines.forEach((line) -> {
             line = line
                     .replace("{player}", player.getName())
                     .replace("{health}", String.valueOf(player.getHealth()));
@@ -121,9 +121,10 @@ public class Nametag {
                 line = PlaceholderAPI.setPlaceholders(this.player, line);
             }
 
-            lines.add(line);
+            text.add(line);
         });
-        return ComponentUtils.format(lines);
+
+        return ComponentUtils.format(text);
     }
 
     private int getBackground() {

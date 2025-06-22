@@ -18,7 +18,7 @@ public class NametagScheduler {
             int interval = (plugin.config().getNametagConfig().getUpdateInterval()) * 20;
             task = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
                 for (Nametag nametag : plugin.getNametagManager().getAll()) {
-                    nametag.updateVisibility();
+                    nametag.updateVisibilityForAll();
                 }
             }, interval, interval);
         } else {

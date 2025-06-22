@@ -26,7 +26,7 @@ public class NametagManager {
 
     public void create(Player player) {
         Nametag nametag = new Nametag(player);
-        nametag.updateVisibility();
+        nametag.updateVisibilityForAll();
         this.nametags.put(player.getUniqueId(), nametag);
     }
 
