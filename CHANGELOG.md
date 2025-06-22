@@ -1,1 +1,2 @@
-- Immediate fix for formatting components
+- Add method to send warn messages
+- Create Update Checker (players with permission `displaytags.admin` will be notified upon joining of updates)
