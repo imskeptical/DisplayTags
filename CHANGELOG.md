@@ -1,1 +1,1 @@
-- Set nametag properties that do not require active changes early
+- Immediate fix for formatting components

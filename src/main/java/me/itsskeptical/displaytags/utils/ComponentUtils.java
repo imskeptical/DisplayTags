@@ -19,11 +19,8 @@ public class ComponentUtils {
         String sanitized = input.indexOf('§') != -1
                 ? input.replace('§', '&')
                 : input;
-        sanitized = sanitized.indexOf('\\') != -1
-                ? sanitized.replace("\\", "")
-                : sanitized;
         Component legacy = LEGACY_SERIALIZER.deserialize(sanitized);
-        String modern = MINI_MESSAGE.serialize(legacy);
+        String modern = MINI_MESSAGE.serialize(legacy).replace("\\", "");
         return MINI_MESSAGE.deserialize(modern);
     }
 
