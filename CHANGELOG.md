@@ -1,2 +1,3 @@
 - Add method to send warn messages
 - Create Update Checker (players with permission `displaytags.admin` will be notified upon joining of updates)
+- v1.0.4 released as v1.0.3 fails to enable, this fixes it.
