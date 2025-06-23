@@ -3,10 +3,11 @@ import xyz.jpenilla.runtask.task.AbstractRun
 plugins {
     id 'java'
     id("xyz.jpenilla.run-paper") version "2.3.1"
+    id("com.modrinth.minotaur") version "2.+"
 }
 
 group = 'me.itsskeptical'
-version = '1.0.4'
+version = '1.0.4-alpha.1'
 
 repositories {
     mavenCentral()
@@ -40,6 +41,35 @@ tasks {
             hangar("PlaceholderAPI", "2.11.6")
         }
     }
+
+    def vString = rootProject.version.toString()
+    def vType = "release"
+    if (vString.contains("-")) {
+        if (vString.contains("beta")) {
+            vType = "beta"
+        } else if (vString.contains("alpha")) {
+            vType = "alpha"
+        }
+    }
+
+    modrinth {
+        token = System.getenv("MODRINTH_TOKEN")
+        projectId = "voqEPXf8"
+        version = rootProject.version
+        versionType = vType
+        changelog = rootProject.file("CHANGELOG.md").text
+        uploadFile = "jar"
+        gameVersions = ["1.21", "1.21.1", "1.21.2", "1.21.3", "1.21.4", "1.21.5"]
+        uploadFile = "build/libs/${rootProject.name}-${rootProject.version}.jar"
+        loaders = ["paper"]
+        syncBodyFrom = rootProject.file("README.md").text
+        dependencies {
+            required.project("packetevents")
+        }
+        debugMode = true
+    }
+
+    tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
 }
 
 def targetJavaVersion = 21
