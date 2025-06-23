@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 public class UpdateChecker {
@@ -25,7 +26,10 @@ public class UpdateChecker {
     }
 
     public void getLatestVersion(Consumer<String> consumer) {
-        if (latest != null) consumer.accept(latest);
+        if (latest != null) {
+            consumer.accept(latest);
+            return;
+        };
 
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             try {
@@ -38,14 +42,22 @@ public class UpdateChecker {
 
                 InputStreamReader reader = new InputStreamReader(connection.getInputStream());
                 JsonArray versions = JsonParser.parseReader(reader).getAsJsonArray();
-                String latestVersion = versions
-                        .get(0)
-                        .getAsJsonObject()
-                        .get("version_number")
-                        .getAsString();
-                if (latestVersion != null) {
-                    latest = latestVersion;
-                    consumer.accept(latestVersion);
+
+                String[] latestVersion = {null};
+                versions.forEach((element) -> {
+                    var object = element.getAsJsonObject();
+                    String versionType = object.get("version_type").getAsString();
+                    if (Objects.equals(versionType, "release")) {
+                        String versionNumber = object.get("version_number").getAsString();
+                        if (latestVersion[0] == null) {
+                            latestVersion[0] = versionNumber;
+                        }
+                    }
+                });
+
+                if (latestVersion[0] != null) {
+                    latest = latestVersion[0];
+                    consumer.accept(latestVersion[0]);
                 }
             } catch (Exception e) {
                 plugin.getLogger().severe("Unable to fetch latest version: " + e.getMessage());
