@@ -42,7 +42,7 @@ public class NametagConfig {
         this.textAlignment = TextAlignment.valueOf(config.getString("nametags.display.text-alignment", "center").toUpperCase());
         this.background = config.getString("nametags.display.background", "default");
         this.billboard = DisplayBillboard.valueOf(config.getString("nametags.display.billboard", "center").toUpperCase());
-        this.scale = parseVector(config, "nametags.display.scale", 1, 1, 1);
+        this.scale = parseScale(config);
     }
 
     public boolean isEnabled() {
@@ -89,10 +89,10 @@ public class NametagConfig {
         return scale;
     }
 
-    private Vector parseVector(FileConfiguration config, String key, double defaultX, double defaultY, double defaultZ) {
+    private Vector parseScale(FileConfiguration config) {
         return new Vector()
-                .setX(config.getDouble(key + ".x", defaultX))
-                .setY(config.getDouble(key + ".y", defaultY))
-                .setZ(config.getDouble(key + ".z", defaultZ));
+                .setX(config.getDouble("scale.x", 1))
+                .setY(config.getDouble("scale.y", 1))
+                .setZ(config.getDouble("scale.z", 1));
     }
 }
