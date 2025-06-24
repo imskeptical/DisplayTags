@@ -5,8 +5,6 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.itsskeptical.displaytags.DisplayTags;
 import me.itsskeptical.displaytags.config.NametagConfig;
 import me.itsskeptical.displaytags.entities.ClientTextDisplay;
-import me.itsskeptical.displaytags.entities.DisplayBillboard;
-import me.itsskeptical.displaytags.entities.TextAlignment;
 import me.itsskeptical.displaytags.utils.ComponentUtils;
 import me.itsskeptical.displaytags.utils.handlers.VanillaNametagHandler;
 import me.itsskeptical.displaytags.utils.helpers.DependencyHelper;
