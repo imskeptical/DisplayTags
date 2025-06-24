@@ -28,7 +28,10 @@ public class CommandGroup extends Command {
                         .replace("{commands}", String.valueOf(commands.size()))
         );
         for (Subcommand command : commands.values()) {
-            messages.add("<gray>/" + this.getName() + " " + command.getName() + " <dark_gray>-" + " <white>" + command.getDescription());
+            messages.add(
+                    "<gray>/{name} <dark_gray>-<white>{description}"
+                            .replace("{name}", command.getName())
+                            .replace("{description}", command.getDescription()));
         }
 
         MessageHelper.send(sender, messages);

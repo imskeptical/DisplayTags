@@ -24,10 +24,7 @@ public class ComponentUtils {
         return MINI_MESSAGE.deserialize(modern);
     }
 
-    public static Component format(List<String> lines) {
-        List<Component> components = lines.parallelStream()
-                .map(ComponentUtils::format)
-                .toList();
+    public static Component join(List<Component> components) {
         return Component.join(joinConfig, components);
     }
 }
