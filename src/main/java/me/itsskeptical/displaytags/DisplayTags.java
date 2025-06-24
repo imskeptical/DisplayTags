@@ -6,6 +6,7 @@ import me.itsskeptical.displaytags.listeners.PlayerListener;
 import me.itsskeptical.displaytags.nametags.NametagManager;
 import me.itsskeptical.displaytags.nametags.NametagScheduler;
 import me.itsskeptical.displaytags.utils.UpdateChecker;
+import me.itsskeptical.displaytags.utils.handlers.NametagHandler;
 import me.itsskeptical.displaytags.utils.helpers.DependencyHelper;
 import me.itsskeptical.displaytags.utils.helpers.MessageHelper;
 import org.bukkit.command.CommandSender;
@@ -46,6 +47,7 @@ public final class DisplayTags extends JavaPlugin {
 
         // Other
         DependencyHelper.load();
+        NametagHandler.load();
         checkForUpdates(getServer().getConsoleSender());
 
         String version = getPluginMeta().getVersion();

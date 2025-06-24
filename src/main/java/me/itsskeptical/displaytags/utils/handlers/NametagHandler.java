@@ -3,10 +3,29 @@ package me.itsskeptical.displaytags.utils.handlers;
 import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.wrapper.PacketWrapper;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerTeams;
+import me.itsskeptical.displaytags.DisplayTags;
+import me.itsskeptical.displaytags.utils.helpers.DependencyHelper;
+import me.neznamy.tab.api.TabAPI;
+import me.neznamy.tab.api.TabPlayer;
+import me.neznamy.tab.api.event.player.PlayerLoadEvent;
+import me.neznamy.tab.api.nametag.NameTagManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 
-public class VanillaNametagHandler {
+public class NametagHandler {
+    public static void load() {
+        if (DependencyHelper.isTABEnabled()) {
+            TabAPI.getInstance().getEventBus().register(PlayerLoadEvent.class, (event) -> {
+                TabPlayer player = event.getPlayer();
+                NameTagManager manager = TabAPI.getInstance().getNameTagManager();
+
+                if (DisplayTags.getInstance().config().getNametagConfig().isEnabled() && manager != null) {
+                    manager.hideNameTag(player);
+                }
+            });
+        }
+    }
+
     public static void hide(Player target, Player viewer) {
         String name = getTeamName(target);
         WrapperPlayServerTeams.ScoreBoardTeamInfo teamInfo = new WrapperPlayServerTeams.ScoreBoardTeamInfo(

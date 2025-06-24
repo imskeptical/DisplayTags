@@ -1,6 +1,6 @@
 package me.itsskeptical.displaytags.nametags;
 
-import me.itsskeptical.displaytags.utils.handlers.VanillaNametagHandler;
+import me.itsskeptical.displaytags.utils.handlers.NametagHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -32,7 +32,7 @@ public class NametagManager {
 
     public void remove(Player player) {
         for (Player viewer : Bukkit.getOnlinePlayers()) {
-            VanillaNametagHandler.show(player, viewer);
+            NametagHandler.show(player, viewer);
         }
 
         Nametag nametag = nametags.get(player.getUniqueId());

@@ -6,7 +6,7 @@ import me.itsskeptical.displaytags.DisplayTags;
 import me.itsskeptical.displaytags.config.NametagConfig;
 import me.itsskeptical.displaytags.entities.ClientTextDisplay;
 import me.itsskeptical.displaytags.utils.ComponentUtils;
-import me.itsskeptical.displaytags.utils.handlers.VanillaNametagHandler;
+import me.itsskeptical.displaytags.utils.handlers.NametagHandler;
 import me.itsskeptical.displaytags.utils.helpers.DependencyHelper;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -89,7 +89,7 @@ public class Nametag {
     }
 
     public void show(Player viewer) {
-        VanillaNametagHandler.hide(player, viewer);
+        NametagHandler.hide(player, viewer);
         if (hideSelf && player.getUniqueId().equals(viewer.getUniqueId())) return;
 
         this.viewers.add(viewer.getUniqueId());
@@ -116,7 +116,7 @@ public class Nametag {
                     .replace("{player}", player.getName())
                     .replace("{health}", String.valueOf(player.getHealth()));
             if (DependencyHelper.isPlaceholderAPIEnabled()) {
-                modified = PlaceholderAPI.setPlaceholders(player, line);
+                modified = PlaceholderAPI.setPlaceholders(player, modified);
             }
             components.add(ComponentUtils.format(modified));
         }

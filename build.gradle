@@ -21,7 +21,8 @@ repositories {
     }
     maven { url = "https://repo.codemc.io/repository/maven-releases/" }
     maven { url = "https://repo.codemc.io/repository/maven-snapshots/" }
-    maven { url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
+    maven { url = "https://repo.extendedclip.com/content/repositories/placeholderapi/" }
+    maven { url = "https://jitpack.io" }
 }
 
 dependencies {
@@ -31,6 +32,7 @@ dependencies {
     implementation("net.kyori:adventure-text-serializer-legacy:4.22.0")
     compileOnly("com.github.retrooper:packetevents-spigot:2.8.0")
     compileOnly("me.clip:placeholderapi:2.11.6")
+    compileOnly("com.github.NEZNAMY:TAB-API:5.2.2")
 }
 
 tasks {
