@@ -1,6 +1,8 @@
 package me.itsskeptical.displaytags.config;
 
 import me.itsskeptical.displaytags.DisplayTags;
+import me.itsskeptical.displaytags.entities.DisplayBillboard;
+import me.itsskeptical.displaytags.entities.TextAlignment;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.util.Vector;
 
@@ -16,9 +18,9 @@ public class NametagConfig {
     private List<String> lines;
     private boolean textShadow;
     private boolean seeThrough;
-    private String textAlignment;
+    private TextAlignment textAlignment;
     private String background;
-    private String billboard;
+    private DisplayBillboard billboard;
     private Vector scale;
 
     public NametagConfig(DisplayTags plugin) {
@@ -37,9 +39,9 @@ public class NametagConfig {
         this.lines = config.getStringList("nametags.display.lines");
         this.textShadow = config.getBoolean("nametags.display.text-shadow", false);
         this.seeThrough = config.getBoolean("nametags.display.see-through", false);
-        this.textAlignment = config.getString("nametags.display.text-alignment", "center");
+        this.textAlignment = TextAlignment.valueOf(config.getString("nametags.display.text-alignment", "center").toUpperCase());
         this.background = config.getString("nametags.display.background", "default");
-        this.billboard = config.getString("nametags.display.billboard", "center");
+        this.billboard = DisplayBillboard.valueOf(config.getString("nametags.display.billboard", "center").toUpperCase());
         this.scale = parseVector(config, "nametags.display.scale", 1, 1, 1);
     }
 
@@ -71,7 +73,7 @@ public class NametagConfig {
         return seeThrough;
     }
 
-    public String getTextAlignment() {
+    public TextAlignment getTextAlignment() {
         return textAlignment;
     }
 
@@ -79,7 +81,7 @@ public class NametagConfig {
         return background;
     }
 
-    public String getBillboard() {
+    public DisplayBillboard getBillboard() {
         return billboard;
     }
 

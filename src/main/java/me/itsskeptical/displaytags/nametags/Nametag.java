@@ -42,9 +42,9 @@ public class Nametag {
         this.display.setTranslation(new Vector3f(0, (float) 0.25, 0));
         this.display.setScale(config.getScale());
         this.display.setTextShadow(config.hasTextShadow());
-        this.display.setTextAlignment(TextAlignment.valueOf(config.getTextAlignment().toUpperCase()));
+        this.display.setTextAlignment(config.getTextAlignment());
         this.display.setSeeThrough(config.isSeeThrough());
-        this.display.setBillboard(DisplayBillboard.valueOf(config.getBillboard().toUpperCase()));
+        this.display.setBillboard(config.getBillboard());
         this.display.setBackground(getBackground());
     }
 
@@ -112,19 +112,17 @@ public class Nametag {
     }
 
     private Component getText() {
-        List<String> text = new ArrayList<>();
-        this.lines.forEach((line) -> {
-            line = line
+        List<Component> components = new ArrayList<>(lines.size());
+        for (String line : lines) {
+            String modified = line
                     .replace("{player}", player.getName())
                     .replace("{health}", String.valueOf(player.getHealth()));
             if (DependencyHelper.isPlaceholderAPIEnabled()) {
-                line = PlaceholderAPI.setPlaceholders(this.player, line);
+                modified = PlaceholderAPI.setPlaceholders(player, line);
             }
-
-            text.add(line);
-        });
-
-        return ComponentUtils.format(text);
+            components.add(ComponentUtils.format(modified));
+        }
+        return ComponentUtils.join(components);
     }
 
     private int getBackground() {

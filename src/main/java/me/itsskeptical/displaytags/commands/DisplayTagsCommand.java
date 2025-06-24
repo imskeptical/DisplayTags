@@ -1,6 +1,7 @@
 package me.itsskeptical.displaytags.commands;
 
 import me.itsskeptical.displaytags.DisplayTags;
+import me.itsskeptical.displaytags.commands.displaytags.ConfigCommand;
 import me.itsskeptical.displaytags.commands.displaytags.HelpCommand;
 import me.itsskeptical.displaytags.commands.displaytags.ReloadCommand;
 import me.itsskeptical.displaytags.commands.framework.CommandGroup;
@@ -16,6 +17,7 @@ public class DisplayTagsCommand extends CommandGroup {
         this.plugin = plugin;
         this.createCommand(new HelpCommand(plugin, this));
         this.createCommand(new ReloadCommand(plugin, this));
+        this.createCommand(new ConfigCommand(plugin, this));
     }
 
     @Override
