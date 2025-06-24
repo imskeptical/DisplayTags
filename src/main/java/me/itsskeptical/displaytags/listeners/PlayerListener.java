@@ -61,10 +61,12 @@ public class PlayerListener implements Listener {
     public void onPlayerGameModeChange(PlayerGameModeChangeEvent event) {
         if (plugin.config().getNametagConfig().isEnabled()) {
             Nametag nametag = nametagManager.get(event.getPlayer());
-            if (event.getNewGameMode() == GameMode.SPECTATOR) {
-                nametag.hideForAll();
-            } else if (event.getPlayer().getPreviousGameMode() == GameMode.SPECTATOR) {
-                nametag.updateVisibilityForAll();
+            if (nametag != null) {
+                if (event.getNewGameMode() == GameMode.SPECTATOR) {
+                    nametag.hideForAll();
+                } else if (event.getPlayer().getPreviousGameMode() == GameMode.SPECTATOR) {
+                    nametag.updateVisibilityForAll();
+                }
             }
         }
     }

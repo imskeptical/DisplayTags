@@ -92,8 +92,8 @@ public final class DisplayTags extends JavaPlugin {
             nametagManager.removeAll();
             if (config().getNametagConfig().isEnabled()) {
                 nametagManager.createAll();
+                nametagScheduler.start();
             }
-            nametagScheduler.start();
 
             getLogger().info("Reloaded!");
             return true;
