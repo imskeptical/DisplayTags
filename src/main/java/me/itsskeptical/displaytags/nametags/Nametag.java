@@ -63,6 +63,11 @@ public class Nametag {
     }
 
     public void updateVisibilityForAll() {
+        viewers.removeIf((uuid) -> {
+            Player viewer = Bukkit.getPlayer(uuid);
+            return viewer == null || !viewer.isOnline();
+        });
+
         for (Player viewer : Bukkit.getOnlinePlayers()) {
             boolean shouldSee = shouldSee(viewer);
             boolean isVisible = this.viewers.contains(viewer.getUniqueId());
