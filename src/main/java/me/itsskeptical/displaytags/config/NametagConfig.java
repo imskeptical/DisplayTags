@@ -15,6 +15,7 @@ public class NametagConfig {
     private boolean showSelf;
     private int updateInterval;
     private int visibilityDistance;
+    private long joinDelay;
     private List<String> lines;
     private boolean textShadow;
     private boolean seeThrough;
@@ -35,6 +36,7 @@ public class NametagConfig {
         this.enabled = config.getBoolean("nametags.enabled", false);
         this.showSelf = config.getBoolean("nametags.show-self", true);
         this.updateInterval = config.getInt("nametags.update-interval", 1);
+        this.joinDelay = config.getInt("nametags.join-delay", 10);
         this.visibilityDistance = config.getInt("nametags.visibility-distance", 64);
         this.lines = config.getStringList("nametags.display.lines");
         this.textShadow = config.getBoolean("nametags.display.text-shadow", false);
@@ -43,6 +45,10 @@ public class NametagConfig {
         this.background = config.getString("nametags.display.background", "default");
         this.billboard = DisplayBillboard.valueOf(config.getString("nametags.display.billboard", "center").toUpperCase());
         this.scale = parseScale(config);
+    }
+
+    public long getJoinDelay() {
+        return joinDelay;
     }
 
     public boolean isEnabled() {

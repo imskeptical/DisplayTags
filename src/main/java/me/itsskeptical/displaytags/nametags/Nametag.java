@@ -64,33 +64,39 @@ public class Nametag {
 
     public void updateVisibilityForAll() {
         for (Player viewer : Bukkit.getOnlinePlayers()) {
-            boolean shouldSee = shouldSee(viewer);
             boolean isVisible = this.viewers.contains(viewer.getUniqueId());
-
-            if (shouldSee) {
+            Nametag nametag = plugin.getNametagManager().get(viewer);
+            
+            if (shouldSee(viewer)) {
                 if (isVisible) {
                     this.update(viewer);
                 } else {
                     this.show(viewer);
                 }
             } else {
-                if (isVisible) this.hide(viewer);
+                if (isVisible)
+                    this.hide(viewer);
             }
         }
     }
 
     private boolean shouldSee(Player viewer) {
-        if (viewer == null || !viewer.isOnline() || viewer.isDead()) return false;
-        if (hideSelf && player.getUniqueId().equals(viewer.getUniqueId())) return false;
-        if (player.isDead() || player.getGameMode().equals(GameMode.SPECTATOR)) return false;
-        if (!viewer.getWorld().getName().equals(player.getWorld().getName())) return false;
+        if (viewer == null || !viewer.isOnline() || viewer.isDead())
+            return false;
+        if (hideSelf && player.getUniqueId().equals(viewer.getUniqueId()))
+            return false;
+        if (player.isDead() || player.getGameMode().equals(GameMode.SPECTATOR))
+            return false;
+        if (!viewer.getWorld().getName().equals(player.getWorld().getName()))
+            return false;
 
         return viewer.getLocation().distanceSquared(player.getLocation()) < visibilityDistance * visibilityDistance;
     }
 
     public void show(Player viewer) {
         NametagHandler.hide(player, viewer);
-        if (hideSelf && player.getUniqueId().equals(viewer.getUniqueId())) return;
+        if (hideSelf && player.getUniqueId().equals(viewer.getUniqueId()))
+            return;
 
         this.viewers.add(viewer.getUniqueId());
         this.display.spawn(viewer);
@@ -125,12 +131,16 @@ public class Nametag {
 
     private int getBackground() {
         String background = plugin.config().getNametagConfig().getBackground();
-        if (background == null || background.equalsIgnoreCase("default")) return -1;
-        if (background.equalsIgnoreCase("transparent")) return 0;
-        if (background.startsWith("#")) background = background.substring(1);
+        if (background == null || background.equalsIgnoreCase("default"))
+            return -1;
+        if (background.equalsIgnoreCase("transparent"))
+            return 0;
+        if (background.startsWith("#"))
+            background = background.substring(1);
 
         Color color = Color.fromARGB((int) Long.parseLong(background, 16));
-        if (background.length() == 6) color = color.setAlpha(255);
+        if (background.length() == 6)
+            color = color.setAlpha(255);
         return color.asARGB();
     }
 }

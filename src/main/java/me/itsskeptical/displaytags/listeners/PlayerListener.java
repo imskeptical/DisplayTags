@@ -25,11 +25,10 @@ public class PlayerListener implements Listener {
         }
 
         if (plugin.config().getNametagConfig().isEnabled()) {
-            // Delay by 10 ticks
+            long delay = plugin.config().getNametagConfig().getJoinDelay();
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                Player player = event.getPlayer();
-                nametagManager.create(player);
-            }, 10L);
+                nametagManager.create(event.getPlayer());
+            }, delay);
         }
     }
 
