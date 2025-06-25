@@ -29,6 +29,7 @@ public class ConfigCommand extends Subcommand {
         boolean hideSelf = config.shouldHideSelf();
         int updateInterval = config.getUpdateInterval();
         int visibilityDistance = config.getVisibilityDistance();
+        long joinDelay = config.getJoinDelay();
         List<String> lines = config.getLines();
         boolean textShadow = config.hasTextShadow();
         boolean seeThrough = config.isSeeThrough();
@@ -46,6 +47,7 @@ public class ConfigCommand extends Subcommand {
         messages.add("  <white>Enabled: " + booleanToString(enabled));
         messages.add("  <white>Show Self: " + booleanToString(!hideSelf));
         messages.add("  <white>Update Interval: <gray>" + updateInterval + " ticks");
+        messages.add("  <white>Join Delay: <gray>" + joinDelay + " ticks");
         messages.add("  <white>Visibility Distance: <gray>" + visibilityDistance + " blocks");
         messages.add("<dark_gray>• <white>Display");
         messages.add("  <white>Lines: <hover:show_text:'{lines}'><gray><u>Hover".replace("{lines}", String.join("\n", lines)));
