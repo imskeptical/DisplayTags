@@ -12,3 +12,6 @@ dependencies:
     PlaceholderAPI:
       required: false
       load: BEFORE
+    TAB:
+      required: true
+      load: BEFORE
