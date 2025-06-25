@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'me.itsskeptical'
-version = '1.0.5'
+version = '1.0.5-alpha.1'
 
 repositories {
     mavenCentral()
