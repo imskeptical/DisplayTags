@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'me.itsskeptical'
-version = '1.0.5-alpha.1'
+version = '1.0.5-alpha.2'
 
 repositories {
     mavenCentral()
@@ -41,6 +41,7 @@ tasks {
         downloadPlugins {
             modrinth("packetevents", "2.8.0")
             hangar("PlaceholderAPI", "2.11.6")
+            modrinth("tab-was-taken", "5.2.2")
         }
     }
 
