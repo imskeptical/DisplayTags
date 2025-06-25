@@ -20,6 +20,7 @@ public class NametagScheduler {
                 for (Nametag nametag : plugin.getNametagManager().getAll()) {
                     nametag.updateVisibilityForAll();
                 }
+
             }, interval, interval);
         } else {
             plugin.getLogger().warning("Nametags are disabled for this server, therefore the nametag scheduler has not been started.");

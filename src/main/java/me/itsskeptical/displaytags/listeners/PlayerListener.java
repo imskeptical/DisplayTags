@@ -1,9 +1,9 @@
 package me.itsskeptical.displaytags.listeners;
 
+import io.papermc.paper.event.player.PlayerClientLoadedWorldEvent;
 import me.itsskeptical.displaytags.DisplayTags;
 import me.itsskeptical.displaytags.nametags.Nametag;
 import me.itsskeptical.displaytags.nametags.NametagManager;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,13 +23,13 @@ public class PlayerListener implements Listener {
         if (event.getPlayer().hasPermission("displaytags.admin")) {
             plugin.checkForUpdates(event.getPlayer());
         }
+    }
 
+    @EventHandler
+    public void onPlayerLoad(PlayerClientLoadedWorldEvent event) {
+        Player player = event.getPlayer();
         if (plugin.config().getNametagConfig().isEnabled()) {
-            // Delay by 10 ticks
-            Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                Player player = event.getPlayer();
-                nametagManager.create(player);
-            }, 10L);
+            nametagManager.create(player);
         }
     }
 
