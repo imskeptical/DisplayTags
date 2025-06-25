@@ -69,6 +69,8 @@ tasks {
             required.project("packetevents")
         }
     }
+
+    tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
 }
 
 def targetJavaVersion = 21
