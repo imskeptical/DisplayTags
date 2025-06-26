@@ -1,5 +1,4 @@
-- Remove non-existent viewers of nametags properly
-- Use player load event to create nametags
+- **MAJOR FIX** TAB should **NOT** be a required dependency. (fixed)
 
 # Download
 - You can download the plugin from the [Modrinth page](https://modrinth.com/plugin/displaytags/versions).
