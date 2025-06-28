@@ -19,13 +19,6 @@ public class PlayerListener implements Listener {
     private final NametagManager nametagManager = DisplayTags.getInstance().getNametagManager();
 
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        if (event.getPlayer().hasPermission("displaytags.admin")) {
-            plugin.checkForUpdates(event.getPlayer());
-        }
-    }
-
-    @EventHandler
     public void onPlayerLoad(PlayerClientLoadedWorldEvent event) {
         Player player = event.getPlayer();
         if (plugin.config().getNametagConfig().isEnabled()) {
