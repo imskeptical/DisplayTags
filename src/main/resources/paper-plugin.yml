@@ -13,5 +13,5 @@ dependencies:
       required: false
       load: BEFORE
     TAB:
-      required: true
+      required: false
       load: BEFORE
