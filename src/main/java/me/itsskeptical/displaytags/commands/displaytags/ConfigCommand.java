@@ -37,28 +37,27 @@ public class ConfigCommand extends Subcommand {
         DisplayBillboard billboard = config.getBillboard();
         Vector scale = config.getScale();
         List<String> scaleText = new ArrayList<>();
-        scaleText.add("X <dark_gray>» <gray>" + scale.getX());
-        scaleText.add("Y <dark_gray>» <gray>" + scale.getY());
-        scaleText.add("Z <dark_gray>» <gray>" + scale.getZ());
+        scaleText.add("<white>X <dark_gray>→ <gray>" + scale.getX());
+        scaleText.add("<white>Y <dark_gray>→ <gray>" + scale.getY());
+        scaleText.add("<white>Z <dark_gray>→ <gray>" + scale.getZ());
 
         List<String> messages = new ArrayList<>();
         messages.add("<dark_gray>• <white>Nametags");
-        messages.add("  <white>Enabled: " + booleanToString(enabled));
-        messages.add("  <white>Show Self: " + booleanToString(!hideSelf));
-        messages.add("  <white>Update Interval: <gray>" + updateInterval + " ticks");
-        messages.add("  <white>Visibility Distance: <gray>" + visibilityDistance + " blocks");
+        messages.add("  <white>Enabled <dark_gray>→ " + booleanToString(enabled));
+        messages.add("  <white>Show Self <dark_gray>→ " + booleanToString(!hideSelf));
+        messages.add("  <white>Update Interval <dark_gray>→ <gray>" + updateInterval + " ticks");
+        messages.add("  <white>Visibility Distance <dark_gray>→ <gray>" + visibilityDistance + " blocks");
         messages.add("<dark_gray>• <white>Display");
-        messages.add("  <white>Lines: <hover:show_text:'{lines}'><gray><u>Hover".replace("{lines}", String.join("\n", lines)));
-        messages.add("  <white>Text Shadow: " + booleanToString(textShadow));
-        messages.add("  <white>See Through: " + booleanToString(seeThrough));
-        messages.add("  <white>Text Alignment: <gray>" + textAlignment.name());
-        messages.add("  <white>Background: " + color(background) + background(background));
-        messages.add("  <white>Billboard: <gray>" + billboard.name());
-        messages.add("  <white>Scale: <hover:show_text:'{scale}'><gray><u>Hover".replace("{scale}", String.join("\n", scaleText)));
+        messages.add("  <white>Lines <dark_gray>→ <hover:show_text:'{lines}'><gray><u>Hover".replace("{lines}", String.join("\n", lines)));
+        messages.add("  <white>Text Shadow <dark_gray>→ " + booleanToString(textShadow));
+        messages.add("  <white>See Through <dark_gray>→ " + booleanToString(seeThrough));
+        messages.add("  <white>Text Alignment <dark_gray>→ <gray>" + textAlignment.name());
+        messages.add("  <white>Background <dark_gray>→ " + color(background) + background(background));
+        messages.add("  <white>Billboard <dark_gray>→ <gray>" + billboard.name());
+        messages.add("  <white>Scale <dark_gray>→ <hover:show_text:'{scale}'><gray><u>Hover".replace("{scale}", String.join("\n", scaleText)));
 
         sender.sendMessage("");
-        MessageHelper.send(sender, "<u>Plugin Configuration");
-        sender.sendMessage("");
+        MessageHelper.send(sender, "<dark_gray>[<#00BFFF>&lᴘʟᴜɢɪɴ ᴄᴏɴꜰɪɢᴜʀᴀᴛɪᴏɴ<dark_gray>]");
         MessageHelper.send(sender, messages);
         sender.sendMessage("");
     }

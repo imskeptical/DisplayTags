@@ -29,7 +29,7 @@ public class CommandGroup extends Command {
         );
         for (Subcommand command : commands.values()) {
             messages.add(
-                    "<gray>/{name} <dark_gray>-<white>{description}"
+                    "<gray>/{name} <dark_gray>→ <white>{description}"
                             .replace("{name}", command.getName())
                             .replace("{description}", command.getDescription()));
         }

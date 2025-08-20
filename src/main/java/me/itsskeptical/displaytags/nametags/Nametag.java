@@ -89,6 +89,7 @@ public class Nametag {
         if (hideSelf && player.getUniqueId().equals(viewer.getUniqueId())) return false;
         if (player.isDead() || player.getGameMode().equals(GameMode.SPECTATOR)) return false;
         if (!viewer.getWorld().getName().equals(player.getWorld().getName())) return false;
+        if (player.isInvisible() || !viewer.canSee(player)) return false;
 
         return viewer.getLocation().distanceSquared(player.getLocation()) < visibilityDistance * visibilityDistance;
     }
