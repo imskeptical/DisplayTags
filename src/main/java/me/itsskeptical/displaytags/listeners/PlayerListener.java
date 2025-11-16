@@ -9,10 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerGameModeChangeEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.*;
 
 public class PlayerListener implements Listener {
     private final DisplayTags plugin = DisplayTags.getInstance();
@@ -43,9 +40,18 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerRespawn(PlayerRespawnEvent event) {
+    public void onPlayerTeleport(PlayerTeleportEvent event) {
         if (plugin.config().getNametagConfig().isEnabled()) {
             Nametag nametag = nametagManager.get(event.getPlayer());
+            nametag.updateVisibilityForAll();
+        }
+    }
+
+    @EventHandler
+    public void onPlayerWorldChange(PlayerChangedWorldEvent event) {
+        if (plugin.config().getNametagConfig().isEnabled()) {
+            Nametag nametag = nametagManager.get(event.getPlayer());
+            nametag.hideForAll();
             nametag.updateVisibilityForAll();
         }
     }

@@ -1,6 +1,6 @@
-- Update to PacketEvents 2.9.4
-- Do not show nametags if player is invisible or not visible to the viewer (#9)
-- Minor improvements to commands
+- Update dependencies
+- Update to 1.21.10
+- Fix bugs with teleportation (including across worlds)
 
 # Download
-- You can download the plugin from the [Modrinth page](https://modrinth.com/plugin/displaytags/versions).
+- Download the plugin from the [Modrinth page](https://modrinth.com/plugin/displaytags/versions)

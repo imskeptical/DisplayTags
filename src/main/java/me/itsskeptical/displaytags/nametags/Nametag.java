@@ -14,6 +14,7 @@ import org.bukkit.Color;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class Nametag {
@@ -63,6 +64,8 @@ public class Nametag {
     }
 
     public void updateVisibilityForAll() {
+        this.display.setLocation(player.getLocation().setRotation(0, 0));
+
         viewers.removeIf((uuid) -> {
             Player viewer = Bukkit.getPlayer(uuid);
             return viewer == null || !viewer.isOnline();
@@ -120,7 +123,7 @@ public class Nametag {
         for (String line : lines) {
             String modified = line
                     .replace("{player}", player.getName())
-                    .replace("{health}", String.valueOf(player.getHealth()));
+                    .replace("{health}", String.valueOf(new DecimalFormat("#.##").format(player.getHealth())));
             if (DependencyHelper.isPlaceholderAPIEnabled()) {
                 modified = PlaceholderAPI.setPlaceholders(player, modified);
             }

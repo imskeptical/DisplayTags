@@ -21,9 +21,9 @@ A lightweight plugin for Minecraft for replacing boring old vanilla Minecraft pl
 - 🔠 Supports [**PlaceholderAPI**](https://github.com/PlaceholderAPI/PlaceholderAPI/releases)
 
 ## Installation
-❗ **NOTE** This plugin is powered by [PacketEvents v2.9.4](https://modrinth.com/plugin/packetevents). It is a **required dependency**. Please install it along with **DisplayTags**, otherwise it will not work!
+❗ **NOTE** This plugin is powered by [PacketEvents v2.10.1](https://modrinth.com/plugin/packetevents). It is a **required dependency**. Please install it along with **DisplayTags**, otherwise it will not work!
 
 - Requires **Paper 1.21+** (**Spigot** is **not** supported)
-- Requires [**PacketEvents v2.9.4+**]([https://modrinth.com/plugin/packetevents](https://modrinth.com/plugin/packetevents))
+- Requires [**PacketEvents v2.10.1**]([https://modrinth.com/plugin/packetevents](https://modrinth.com/plugin/packetevents))
 
 ![DisplayTags Example](https://imagedelivery.net/W9K_l6ndK9x4x8m3rurakg/ebf31098-5459-46e7-e9a7-ac07cf1c0500/original)
