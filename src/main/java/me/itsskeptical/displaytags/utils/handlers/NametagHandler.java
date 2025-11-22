@@ -27,6 +27,7 @@ public class NametagHandler {
     }
 
     public static void hide(Player target, Player viewer) {
+        if (DependencyHelper.isTABEnabled()) return;
         String name = getTeamName(target);
         WrapperPlayServerTeams.ScoreBoardTeamInfo teamInfo = new WrapperPlayServerTeams.ScoreBoardTeamInfo(
                 Component.empty(),
@@ -47,6 +48,7 @@ public class NametagHandler {
     }
 
     public static void show(Player target, Player viewer) {
+        if (DependencyHelper.isTABEnabled()) return;
         String name = getTeamName(target);
         WrapperPlayServerTeams packet = new WrapperPlayServerTeams(
                 name,
