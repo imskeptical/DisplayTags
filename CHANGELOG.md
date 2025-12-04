@@ -1,6 +1,4 @@
-- Update dependencies
-- Update to 1.21.10
-- Fix bugs with teleportation (including across worlds)
+- Fix incompatibility with TAB (tab sorting issue)
 
 # Download
 - Download the plugin from the [Modrinth page](https://modrinth.com/plugin/displaytags/versions)
