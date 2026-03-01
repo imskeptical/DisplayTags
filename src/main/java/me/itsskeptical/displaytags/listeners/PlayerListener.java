@@ -19,6 +19,11 @@ public class PlayerListener implements Listener {
     public void onPlayerLoad(PlayerClientLoadedWorldEvent event) {
         Player player = event.getPlayer();
         if (plugin.config().getNametagConfig().isEnabled()) {
+
+            if (nametagManager.get(player) != null) {
+                nametagManager.remove(player);
+            }
+
             nametagManager.create(player);
         }
     }
