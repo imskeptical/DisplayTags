@@ -27,6 +27,9 @@ public class Nametag {
     private final boolean hideSelf;
     private final int visibilityDistance;
 
+    // The name tag text is cached, and only modified when the name tag's visibility is updated.
+    private Component cachedText;
+
     public Nametag(Player player) {
         this.plugin = DisplayTags.getInstance();
         this.player = player;
@@ -45,6 +48,8 @@ public class Nametag {
         this.display.setSeeThrough(config.isSeeThrough());
         this.display.setBillboard(config.getBillboard());
         this.display.setBackground(getBackground());
+
+        this.cachedText = getText();
     }
 
     public Player getPlayer() {
@@ -58,6 +63,7 @@ public class Nametag {
     }
 
     public void updateVisibilityForAll() {
+        this.cachedText = getText();
         this.display.setLocation(player.getLocation().setRotation(0, 0));
 
         viewers.removeIf((uuid) -> {
@@ -107,7 +113,7 @@ public class Nametag {
 
     public void update(Player viewer) {
         this.display.setLocation(player.getLocation());
-        this.display.setText(getText());
+        this.display.setText(this.cachedText);
         this.display.mount(this.player, viewer);
         this.display.update(viewer);
     }
