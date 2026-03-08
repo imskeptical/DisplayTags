@@ -9,6 +9,7 @@ import me.skyyiscool.displaytags.listener.PlayerListener;
 import me.skyyiscool.displaytags.metrics.Metrics;
 import me.skyyiscool.displaytags.nametag.NameTagManagerImpl;
 import me.skyyiscool.displaytags.nametag.NameTagScheduler;
+import me.skyyiscool.displaytags.util.DependencyUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.entity.Player;
@@ -35,6 +36,8 @@ public final class DisplayTags extends JavaPlugin implements DisplayTagsPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
+        DependencyUtil.load(this);
+
         PluginManager pluginManager = getServer().getPluginManager();
         CommandMap commandMap = getServer().getCommandMap();
 

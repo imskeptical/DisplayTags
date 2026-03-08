@@ -1,11 +1,13 @@
 package me.skyyiscool.displaytags.nametag;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.skyyiscool.displaytags.DisplayTags;
 import me.skyyiscool.displaytags.api.nametag.PlayerNameTag;
 import me.skyyiscool.displaytags.api.events.NameTagDespawnEvent;
 import me.skyyiscool.displaytags.api.events.NameTagSpawnEvent;
 import me.skyyiscool.displaytags.config.NameTagConfiguration;
 import me.skyyiscool.displaytags.util.ComponentUtil;
+import me.skyyiscool.displaytags.util.DependencyUtil;
 import me.skyyiscool.displaytags.wrapper.display.DisplayBillboard;
 import me.skyyiscool.displaytags.wrapper.display.TextAlignment;
 import me.skyyiscool.displaytags.wrapper.display.TextDisplayWrapper;
@@ -22,12 +24,16 @@ import java.util.*;
 public class PlayerNameTagImpl extends PlayerNameTag {
     private final TextDisplayWrapper display;
 
+    // The name tag text is cached temporarily, and it is only changed when the name tag ticks.
+    private Component cachedText = getText();
+
     public PlayerNameTagImpl(Player player) {
         super(player);
         this.display = new TextDisplayWrapper();
 
         NameTagConfiguration config = DisplayTags.get().config().nametag();
         this.data.setShowToSelf(config.showToSelf());
+        this.data.setVisibilityDistance(config.getVisibilityDistance());
 
         TextDisplay.TextAlignment alignment = TextDisplay.TextAlignment.valueOf(config.getTextAlignment().name());
         Display.Billboard billboard = Display.Billboard.valueOf(config.getBillboard().name());
@@ -70,7 +76,7 @@ public class PlayerNameTagImpl extends PlayerNameTag {
         this.display.setBackground(this.data.getBackground());
         this.display.setTranslation(this.data.getTranslation());
         this.display.setScale(this.data.getScale());
-        this.display.setText(getText());
+        this.display.setText(this.cachedText);
 
         this.display.updateFor(viewerId);
     }
@@ -91,6 +97,7 @@ public class PlayerNameTagImpl extends PlayerNameTag {
 
     @Override
     public void tick() {
+        this.cachedText = getText();
         this.display.setLocation(this.player.getLocation().setRotation(0, 0));
 
         this.viewers.removeIf((uuid) -> {
@@ -113,24 +120,30 @@ public class PlayerNameTagImpl extends PlayerNameTag {
     }
 
     private boolean shouldBeVisibleTo(Player viewer) {
-        if (viewer == null || !viewer.isOnline()) return false;
-        if (viewer.getUniqueId().equals(this.player.getUniqueId()) && !this.data.shouldShowToSelf()) return false;
+        if (viewer == null || !viewer.isOnline() || viewer.isDead()) return false;
+        if (this.data.shouldShowToSelf() && viewer.getUniqueId().equals(this.player.getUniqueId())) return false;
         if (!viewer.getWorld().getName().equals(this.player.getWorld().getName())) return false;
+        if (this.player.isInvisible() || !viewer.canSee(this.player)) return false;
+        if (this.player.isDead() || this.player.getGameMode().equals(GameMode.SPECTATOR)) return false;
 
-        if (this.player.isDead()) return false;
-        if (this.player.getGameMode() == GameMode.SPECTATOR) return false;
-
-        return true;
+        int visibilityDistance = this.data.getVisibilityDistance();
+        return viewer.getLocation().distanceSquared(player.getLocation()) < visibilityDistance * visibilityDistance;
     }
 
     private Component getText() {
         List<String> lines = this.data.getLines()
                 .stream()
-                .map((line) -> line
-                        .replace("{player}", player.getName())
-                        .replace("{health}", String.valueOf(new DecimalFormat("#.##").format(player.getHealth())))
-                )
+                .map((line) -> {
+                    String modified = line
+                            .replace("{player}", player.getName())
+                            .replace("{health}", String.valueOf(new DecimalFormat("#.##").format(player.getHealth())));
+                    if (DependencyUtil.enabledPlaceholderAPI())
+                        modified = PlaceholderAPI.setPlaceholders(this.player, modified);
+
+                    return modified;
+                })
                 .toList();
+
         return ComponentUtil.render(lines);
     }
 }

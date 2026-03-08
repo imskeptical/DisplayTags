@@ -9,6 +9,7 @@ import java.util.List;
 
 public class NameTagData {
     private boolean showToSelf = true;
+    private int visibilityDistance = 32;
 
     private List<String> lines = List.of();
     private TextDisplay.TextAlignment textAlignment = TextDisplay.TextAlignment.CENTER;
@@ -28,6 +29,14 @@ public class NameTagData {
 
     public void setShowToSelf(boolean showToSelf) {
         this.showToSelf = showToSelf;
+    }
+
+    public int getVisibilityDistance() {
+        return this.visibilityDistance;
+    }
+
+    public void setVisibilityDistance(int visibilityDistance) {
+        this.visibilityDistance = visibilityDistance;
     }
 
     public List<String> getLines() {
