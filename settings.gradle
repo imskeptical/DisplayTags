@@ -1,0 +1,4 @@
+rootProject.name = 'DisplayTags'
+
+include 'api'
+include 'api'

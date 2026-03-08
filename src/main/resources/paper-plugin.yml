@@ -1,0 +1,11 @@
+name: DisplayTags
+version: '2.0.0'
+main: me.skyyiscool.displaytags.DisplayTags
+api-version: '1.21'
+authors: [ SkyyIsCool ]
+description: Modern plugin for rich player nametags powered by Text Displays!
+dependencies:
+  server:
+    packetevents:
+      load: BEFORE
+      required: true
