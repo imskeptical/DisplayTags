@@ -1,7 +1,7 @@
 package me.skyyiscool.displaytags.nametag;
 
 import me.skyyiscool.displaytags.DisplayTags;
-import me.skyyiscool.displaytags.api.PlayerNameTag;
+import me.skyyiscool.displaytags.api.nametag.PlayerNameTag;
 import org.bukkit.scheduler.BukkitTask;
 
 public class NameTagScheduler {
@@ -13,20 +13,25 @@ public class NameTagScheduler {
     }
 
     public void start() {
-        if (this.plugin.config().nametag().enabled()) {
-            int interval = (plugin.config().nametag().updateInterval()) * 20;
+        if (plugin.config().nametag().isEnabled()) {
+            int interval = (plugin.config().nametag().getUpdateInterval()) * 20;
             task = plugin.getServer().getScheduler().runTaskTimer(plugin, () -> {
                 for (PlayerNameTag nametag : plugin.getNameTagManager().getAll()) {
                     nametag.tick();
                 }
             }, interval, interval);
+
+            plugin.getLogger().info("Started the Name Tag Scheduler.");
         } else {
-            plugin.getLogger().warning("Custom name tags are disabled for this server, therefore the name tag scheduler has not been started.");
+            plugin.getLogger().warning("Custom name tags are disabled for this server, therefore the Name Tag Scheduler has not been started.");
             plugin.getLogger().warning("If you want to enable the custom name tags again, enable them in config.yml and run /displaytags reload.");
         }
     }
 
     public void end() {
-        if (task != null) task.cancel();
+        if (task != null) {
+            task.cancel();
+            plugin.getLogger().info("Stopped the Name Tag Scheduler.");
+        }
     }
 }

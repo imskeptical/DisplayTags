@@ -6,11 +6,11 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-public class NameTagCreateEvent extends Event {
+public class NameTagRemoveEvent extends Event {
     private static final HandlerList HANDLER_LIST = new HandlerList();
     private final PlayerNameTag tag;
 
-    public NameTagCreateEvent(PlayerNameTag tag) {
+    public NameTagRemoveEvent(PlayerNameTag tag) {
         this.tag = tag;
     }
 

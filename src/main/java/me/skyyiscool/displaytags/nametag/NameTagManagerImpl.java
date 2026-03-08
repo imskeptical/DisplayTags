@@ -1,8 +1,9 @@
 package me.skyyiscool.displaytags.nametag;
 
-import me.skyyiscool.displaytags.api.NameTagManager;
-import me.skyyiscool.displaytags.api.PlayerNameTag;
+import me.skyyiscool.displaytags.api.nametag.NameTagManager;
+import me.skyyiscool.displaytags.api.nametag.PlayerNameTag;
 import me.skyyiscool.displaytags.api.events.NameTagCreateEvent;
+import me.skyyiscool.displaytags.api.events.NameTagRemoveEvent;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
@@ -38,10 +39,12 @@ public class NameTagManagerImpl implements NameTagManager {
 
     @Override
     public void removeNameTag(Player player) {
-        PlayerNameTag tag = tags.get(player.getUniqueId());
+        PlayerNameTag tag = tags.remove(player.getUniqueId());
         if (tag == null) return;
 
+        NameTagRemoveEvent event = new NameTagRemoveEvent(tag);
+        event.callEvent();
+
         tag.despawnForViewers();
-        tags.remove(player.getUniqueId());
     }
 }

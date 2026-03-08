@@ -21,14 +21,16 @@ public class MessageUtil {
 
     public static void send(CommandSender sender, String message) {
         sender.sendMessage(
-                ComponentUtil.render(format("{prefix} <dark_gray>» <reset>" + message))
+                ComponentUtil.render(format(prefixed(message)))
         );
     }
 
     public static void send(CommandSender sender, List<String> messages) {
-        for (String message : messages) {
-            send(sender, message);
-        }
+        messages.forEach((message) -> send(sender, message));
+    }
+
+    public static String prefixed(String message) {
+        return format("{prefix} <dark_gray>» <reset>" + message);
     }
 
     private static String format(String input) {

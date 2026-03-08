@@ -1,4 +1,4 @@
-package me.skyyiscool.displaytags.api;
+package me.skyyiscool.displaytags.api.nametag;
 
 import org.bukkit.entity.Player;
 

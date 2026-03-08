@@ -3,6 +3,7 @@ package me.skyyiscool.displaytags.wrapper.display;
 import com.github.retrooper.packetevents.protocol.entity.data.EntityData;
 import com.github.retrooper.packetevents.protocol.entity.data.EntityDataTypes;
 import com.github.retrooper.packetevents.protocol.entity.type.EntityTypes;
+import me.skyyiscool.displaytags.util.Constants;
 import net.kyori.adventure.text.Component;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 public class TextDisplayWrapper extends DisplayWrapper {
     private Component text = Component.empty();
     private int lineWidth = 200; // Default line width
-    private int background = 1073741824; // Default background
+    private int background = Constants.DEFAULT_TEXT_DISPLAY_BACKGROUND; // Default background
     private int textOpacity = -1; // Default text opacity
     private int flags = 0;
 

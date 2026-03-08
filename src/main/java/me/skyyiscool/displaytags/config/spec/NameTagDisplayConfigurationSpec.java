@@ -1,7 +1,8 @@
-package me.skyyiscool.displaytags.config;
+package me.skyyiscool.displaytags.config.spec;
 
-import me.skyyiscool.displaytags.wrapper.display.DisplayBillboard;
+import me.skyyiscool.displaytags.config.typings.ConfigurationVector;
 import me.skyyiscool.displaytags.wrapper.display.TextAlignment;
+import org.bukkit.entity.Display;
 import revxrsal.spec.annotation.Comment;
 import revxrsal.spec.annotation.ConfigSpec;
 import revxrsal.spec.annotation.Key;
@@ -10,7 +11,7 @@ import revxrsal.spec.annotation.Order;
 import java.util.List;
 
 @ConfigSpec
-public interface NameTagDisplayConfiguration {
+public interface NameTagDisplayConfigurationSpec {
     @Order(1) @Key("lines")
     @Comment({
         "The lines of text shown on the name tag, top to bottom.",
@@ -33,7 +34,7 @@ public interface NameTagDisplayConfiguration {
             "Enable shadowed text for the text display of the name tag.",
             "Available values: true, false"
     })
-    default boolean hasTextShadow() {
+    default boolean textShadow() {
         return true;
     }
 
@@ -42,7 +43,7 @@ public interface NameTagDisplayConfiguration {
             "Should the text display of name tags be see through?",
             "Available values: true, false"
     })
-    default boolean isSeeThrough() {
+    default boolean seeThrough() {
         return false;
     }
 
@@ -51,8 +52,8 @@ public interface NameTagDisplayConfiguration {
             "The alignment of the name tag's text display.",
             "Available values: \"left\", \"right\", \"center\""
     })
-    default TextAlignment textAlignment() {
-        return TextAlignment.CENTER;
+    default String textAlignment() {
+        return TextAlignment.CENTER.name().toLowerCase();
     }
 
     @Order(5) @Key("background")
@@ -70,7 +71,29 @@ public interface NameTagDisplayConfiguration {
             "The billboard of the name tag's display.",
             "Available values: fixed, vertical, horizontal, center"
     })
-    default DisplayBillboard billboard() {
-        return DisplayBillboard.VERTICAL;
+    default String billboard() {
+        return Display.Billboard.VERTICAL.name().toLowerCase();
+    }
+
+    @Order(7) @Key("offset")
+    @Comment({
+        "The offset of the name tag's display relative to the player's location.",
+        "This is measured in blocks. (so, 0.5 = half of a block, 1.0 = a full block)",
+        "Set y to 0.25 to move the name tag a little above the player's head so it looks similar to Minecraft's vanilla player name tags.",
+        "X = Left/Right",
+        "Y = Up/Down",
+        "Z = Forward/Backward",
+    })
+    default ConfigurationVector offset() {
+        return new ConfigurationVector(0, 0.25, 0);
+    }
+
+    @Order(8) @Key("scale")
+    @Comment({
+            "The scale of the name tag's display.",
+            "This can be used to change the size of the nametag."
+    })
+    default ConfigurationVector scale() {
+        return new ConfigurationVector(1, 1, 1);
     }
 }

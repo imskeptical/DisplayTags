@@ -1,51 +1,90 @@
 package me.skyyiscool.displaytags.config;
 
-import revxrsal.spec.annotation.Comment;
-import revxrsal.spec.annotation.ConfigSpec;
-import revxrsal.spec.annotation.Key;
-import revxrsal.spec.annotation.Order;
+import me.skyyiscool.displaytags.config.spec.DisplayTagsConfigurationSpec;
+import me.skyyiscool.displaytags.wrapper.display.DisplayBillboard;
+import me.skyyiscool.displaytags.wrapper.display.TextAlignment;
+import org.bukkit.util.Vector;
 
-@ConfigSpec
-public interface NameTagConfiguration {
-    @Order(1) @Key("enabled")
-    @Comment({
-            "Enable custom player name tags.",
-            "Set this to false if you want Minecraft's vanilla player name tags to be shown instead."
-    })
-    default boolean enabled() {
-        return true;
+import java.util.List;
+
+public class NameTagConfiguration {
+    private boolean enabled;
+    private boolean showToSelf;
+    private int updateInterval;
+    private int visibilityDistance;
+
+    private List<String> lines;
+    private boolean textShadow;
+    private boolean seeThrough;
+    private TextAlignment textAlignment;
+    private String background;
+    private DisplayBillboard billboard;
+    private Vector offset;
+    private Vector scale;
+
+    public void load(DisplayTagsConfigurationSpec config) {
+        TextAlignment alignment = TextAlignment.valueOf(config.nametag().display().textAlignment().toUpperCase());
+        DisplayBillboard billboard = DisplayBillboard.valueOf(config.nametag().display().billboard().toUpperCase());
+
+        this.enabled = config.nametag().enabled();
+        this.showToSelf = config.nametag().showToSelf();
+        this.updateInterval = config.nametag().updateInterval();
+        this.visibilityDistance = config.nametag().visibilityDistance();
+        this.lines = config.nametag().display().lines();
+        this.textShadow = config.nametag().display().textShadow();
+        this.seeThrough = config.nametag().display().seeThrough();
+        this.textAlignment = alignment;
+        this.background = config.nametag().display().background();
+        this.billboard = billboard;
+        this.offset = config.nametag().display().offset().toBukkitVector();
+        this.scale = config.nametag().display().scale().toBukkitVector();
     }
 
-    @Order(2) @Key("show-self")
-    @Comment({
-            "Should players see their own name tag?",
-            "Set this to true to show your own name tag above your head (in second/third person perspective).",
-            "Set this to false if you do not want players seeing their own name tag."
-    })
-    default boolean showSelf() {
-        return true;
+    public boolean isEnabled() {
+        return this.enabled;
     }
 
-    @Order(3) @Key("update-interval")
-    @Comment({
-            "How often name tags should update (in seconds).",
-            "Lower = more frequent updates = more accurate, but slightly more CPU usage.",
-            "Recommended: 1 second"
-    })
-    default int updateInterval() {
-        return 1;
+    public boolean showToSelf() {
+        return this.showToSelf;
     }
 
-    @Order(4) @Key("visibility-distance")
-    @Comment({
-            "How far away other players must be to see someone's name tag (in blocks).",
-            "Example: 32 = players can see nametags from up to 32 blocks away."
-    })
-    default int visibilityDistance() {
-        return 32;
+    public int getUpdateInterval() {
+        return this.updateInterval;
     }
 
-    @Order(5) @Key("display")
-    @Comment("Name Tag Display Properties")
-    NameTagDisplayConfiguration display();
+    public int getVisibilityDistance() {
+        return this.visibilityDistance;
+    }
+
+    public List<String> getLines() {
+        return this.lines;
+    }
+
+    public boolean hasTextShadow() {
+        return this.textShadow;
+    }
+
+    public boolean isSeeThrough() {
+        return this.seeThrough;
+    }
+
+    public TextAlignment getTextAlignment() {
+        return this.textAlignment;
+    }
+
+    public String getBackground() {
+        return this.background;
+    }
+
+    public DisplayBillboard getBillboard() {
+        return this.billboard;
+    }
+
+    public Vector getOffset() {
+        return this.offset;
+    }
+
+    public Vector getScale() {
+        return this.scale;
+    }
 }

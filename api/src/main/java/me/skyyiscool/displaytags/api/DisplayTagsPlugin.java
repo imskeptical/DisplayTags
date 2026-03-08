@@ -1,5 +1,6 @@
 package me.skyyiscool.displaytags.api;
 
+import me.skyyiscool.displaytags.api.nametag.NameTagManager;
 import org.bukkit.Bukkit;
 
 public interface DisplayTagsPlugin {

@@ -1,7 +1,7 @@
 package me.skyyiscool.displaytags.listener;
 
 import me.skyyiscool.displaytags.DisplayTags;
-import me.skyyiscool.displaytags.api.PlayerNameTag;
+import me.skyyiscool.displaytags.api.nametag.PlayerNameTag;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,21 +18,37 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (plugin.config().nametag().enabled()) {
+        if (plugin.config().nametag().isEnabled()) {
             this.plugin.getNameTagManager().createNameTag(event.getPlayer());
         }
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        if (plugin.config().nametag().enabled()) {
+        if (plugin.config().nametag().isEnabled()) {
             this.plugin.getNameTagManager().removeNameTag(event.getPlayer());
         }
     }
 
     @EventHandler
+    public void onPlayerSneakToggle(PlayerToggleSneakEvent event) {
+        if (plugin.config().nametag().isEnabled()) {
+            PlayerNameTag tag = this.plugin.getNameTagManager().getByPlayer(event.getPlayer());
+            if (tag == null) return;
+
+            if (event.isSneaking()) {
+                tag.getData().setTextOpacity(50);
+            } else {
+                tag.getData().setTextOpacity(-1);
+            }
+
+            tag.updateForViewers();
+        }
+    }
+
+    @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event) {
-        if (plugin.config().nametag().enabled()) {
+        if (plugin.config().nametag().isEnabled()) {
             PlayerNameTag tag = this.plugin.getNameTagManager().getByPlayer(event.getPlayer());
             if (tag == null) return;
 
@@ -43,7 +59,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerGameModeChange(PlayerGameModeChangeEvent event) {
-        if (plugin.config().nametag().enabled()) {
+        if (plugin.config().nametag().isEnabled()) {
             Player player = event.getPlayer();
             PlayerNameTag tag = this.plugin.getNameTagManager().getByPlayer(player);
             if (tag == null) return;
@@ -65,7 +81,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        if (plugin.config().nametag().enabled()) {
+        if (plugin.config().nametag().isEnabled()) {
             PlayerNameTag tag = this.plugin.getNameTagManager().getByPlayer(event.getPlayer());
             if (tag == null) return;
 
@@ -75,7 +91,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event) {
-        if (plugin.config().nametag().enabled()) {
+        if (plugin.config().nametag().isEnabled()) {
             PlayerNameTag tag = this.plugin.getNameTagManager().getByPlayer(event.getPlayer());
             if (tag == null) return;
 

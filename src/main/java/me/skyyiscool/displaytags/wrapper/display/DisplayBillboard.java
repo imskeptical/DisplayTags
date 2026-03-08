@@ -11,9 +11,4 @@ public enum DisplayBillboard {
     DisplayBillboard(int value) {
         this.value = value;
     }
-
-    @Override
-    public String toString() {
-        return super.toString().toLowerCase();
-    }
 }

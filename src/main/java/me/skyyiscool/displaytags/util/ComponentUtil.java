@@ -22,7 +22,7 @@ public class ComponentUtil {
         return join(components);
     }
 
-    private static Component join(List<Component> components) {
+    public static Component join(List<Component> components) {
         return Component.join(JOIN_CONFIG, components);
     }
 }

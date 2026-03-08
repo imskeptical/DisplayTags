@@ -6,12 +6,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public abstract class CommandGroup extends Command {
-    public DisplayTags plugin;
+    protected DisplayTags plugin;
     private final Map<String, SubCommand> commands = new HashMap<>();
 
     protected CommandGroup(String name, DisplayTags plugin) {
@@ -19,8 +20,16 @@ public abstract class CommandGroup extends Command {
         this.plugin = plugin;
     }
 
+    public DisplayTags getPlugin() {
+        return this.plugin;
+    }
+
     public void addCommand(SubCommand command) {
         this.commands.put(command.getName(), command);
+    }
+
+    public Collection<SubCommand> getCommands() {
+        return this.commands.values();
     }
 
     @Override
@@ -49,8 +58,14 @@ public abstract class CommandGroup extends Command {
     public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String @NotNull [] args) throws IllegalArgumentException {
         String name = args[0].toLowerCase();
         if (args.length == 1) {
-            return commands.keySet().stream()
-                    .filter((cmd) -> cmd.startsWith(name))
+            return commands.values().stream()
+                    .filter((cmd) -> {
+                        if (!cmd.getName().startsWith(name)) return false;
+                        if (cmd.getPermission() != null) return sender.hasPermission(cmd.getPermission());
+
+                        return true;
+                    })
+                    .map(SubCommand::getName)
                     .toList();
         }
 

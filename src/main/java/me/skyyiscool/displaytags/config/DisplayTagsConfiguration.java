@@ -1,22 +1,34 @@
 package me.skyyiscool.displaytags.config;
 
-import revxrsal.spec.annotation.*;
+import me.skyyiscool.displaytags.DisplayTags;
+import me.skyyiscool.displaytags.config.spec.DisplayTagsConfigurationSpec;
+import revxrsal.spec.Specs;
 
-@ConfigSpec(header = {
-        "----------------------------------",
-        "        DisplayTags Config        ",
-        "----------------------------------",
-        "This is the configuration file for DisplayTags.",
-        "To apply any changes you make here, run: /displaytags reload",
-        "Wiki: https://github.com/imskeptical/DisplayTags/wiki"
-})
-public interface DisplayTagsConfiguration {
-    @Order(1) @Key("nametag")
-    NameTagConfiguration nametag();
+import java.io.File;
 
-    @Save
-    void save();
+public class DisplayTagsConfiguration {
+    private final DisplayTagsConfigurationSpec config;
+    private final NameTagConfiguration nameTagConfig;
 
-    @Reload
-    void reload();
+    public DisplayTagsConfiguration(DisplayTags plugin) {
+        File file = new File(plugin.getDataFolder(), "config.yml");
+        this.config = Specs.fromFile(DisplayTagsConfigurationSpec.class, file.toPath());
+        this.nameTagConfig = new NameTagConfiguration();
+
+        this.config.save();
+        this.load();
+    }
+
+    public void load() {
+        this.nameTagConfig.load(this.config);
+    }
+
+    public void reload() {
+        this.config.reload();
+        this.load();
+    }
+
+    public NameTagConfiguration nametag() {
+        return this.nameTagConfig;
+    }
 }

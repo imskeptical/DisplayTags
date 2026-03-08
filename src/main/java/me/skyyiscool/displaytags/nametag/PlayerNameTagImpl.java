@@ -1,54 +1,58 @@
 package me.skyyiscool.displaytags.nametag;
 
-import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerBundle;
 import me.skyyiscool.displaytags.DisplayTags;
-import me.skyyiscool.displaytags.api.PlayerNameTag;
+import me.skyyiscool.displaytags.api.nametag.PlayerNameTag;
+import me.skyyiscool.displaytags.api.events.NameTagDespawnEvent;
+import me.skyyiscool.displaytags.api.events.NameTagSpawnEvent;
 import me.skyyiscool.displaytags.config.NameTagConfiguration;
-import me.skyyiscool.displaytags.config.NameTagDisplayConfiguration;
 import me.skyyiscool.displaytags.util.ComponentUtil;
-import me.skyyiscool.displaytags.util.PacketUtil;
 import me.skyyiscool.displaytags.wrapper.display.DisplayBillboard;
+import me.skyyiscool.displaytags.wrapper.display.TextAlignment;
 import me.skyyiscool.displaytags.wrapper.display.TextDisplayWrapper;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
 import org.bukkit.GameMode;
+import org.bukkit.entity.Display;
 import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
+import org.bukkit.entity.TextDisplay;
 
 import java.text.DecimalFormat;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class PlayerNameTagImpl extends PlayerNameTag {
     private final TextDisplayWrapper display;
-    private final boolean showSelf;
 
     public PlayerNameTagImpl(Player player) {
         super(player);
+        this.display = new TextDisplayWrapper();
 
         NameTagConfiguration config = DisplayTags.get().config().nametag();
-        NameTagDisplayConfiguration displayConfig = config.display();
-        DisplayBillboard billboard = displayConfig.billboard();
-        Integer background = this.getBackground(displayConfig);
+        this.data.setShowToSelf(config.showToSelf());
 
-        this.lines = displayConfig.lines();
-        this.showSelf = config.showSelf();
+        TextDisplay.TextAlignment alignment = TextDisplay.TextAlignment.valueOf(config.getTextAlignment().name());
+        Display.Billboard billboard = Display.Billboard.valueOf(config.getBillboard().name());
 
-        this.display = new TextDisplayWrapper();
-        this.display.setTextShadow(displayConfig.hasTextShadow());
-        this.display.setTranslation(new Vector(0.0, 0.25, 0.0));
-        this.display.setScale(new Vector(0.75, 0.75, 0.75));
-
-        if (billboard != null) this.display.setBillboard(billboard);
-        if (background != null) this.display.setBackground(background);
+        this.data.setLines(config.getLines());
+        this.data.setTextAlignment(alignment);
+        this.data.setBillboard(billboard);
+        this.data.setTextShadow(config.hasTextShadow());
+        this.data.setSeeThrough(config.isSeeThrough());
+        this.data.setBackground(config.getBackground());
+        this.data.setTranslation(config.getOffset());
+        this.data.setScale(config.getScale());
     }
 
     @Override
     public void spawnFor(UUID viewerId) {
-        if (!this.showSelf) return;
-        this.viewers.add(viewerId);
+        if (!this.data.shouldShowToSelf()) return;
 
+        Player viewer = Bukkit.getPlayer(viewerId);
+        if (viewer == null) return;
+
+        NameTagSpawnEvent event = new NameTagSpawnEvent(this, viewer);
+        if (!event.callEvent()) return;
+
+        this.viewers.add(viewerId);
         this.display.spawnFor(viewerId);
         this.display.mountFor(viewerId, this.player.getEntityId());
         this.updateFor(viewerId);
@@ -56,16 +60,17 @@ public class PlayerNameTagImpl extends PlayerNameTag {
 
     @Override
     public void updateFor(UUID viewerId) {
-        List<String> lines = this.lines
-                .stream()
-                .map((line) -> line
-                        .replace("{player}", player.getName())
-                        .replace("{health}", String.valueOf(new DecimalFormat("#.##").format(player.getHealth())))
-                )
-                .toList();
+        TextAlignment alignment = TextAlignment.valueOf(this.data.getTextAlignment().name());
+        DisplayBillboard billboard = DisplayBillboard.valueOf(this.data.getBillboard().name());
 
-        Component text = ComponentUtil.render(lines);
-        this.display.setText(text);
+        this.display.setTextAlignment(alignment);
+        this.display.setBillboard(billboard);
+        this.display.setTextShadow(this.data.hasTextShadow());
+        this.display.setSeeThrough(this.data.isSeeThrough());
+        this.display.setBackground(this.data.getBackground());
+        this.display.setTranslation(this.data.getTranslation());
+        this.display.setScale(this.data.getScale());
+        this.display.setText(getText());
 
         this.display.updateFor(viewerId);
     }
@@ -73,6 +78,13 @@ public class PlayerNameTagImpl extends PlayerNameTag {
     @Override
     public void despawnFor(UUID viewerId) {
         if (!this.viewers.contains(viewerId)) return;
+
+        Player viewer = Bukkit.getPlayer(viewerId);
+        if (viewer == null) return;
+
+        NameTagDespawnEvent event = new NameTagDespawnEvent(this, viewer);
+        if (!event.callEvent()) return;
+
         this.viewers.remove(viewerId);
         this.display.despawnFor(viewerId);
     }
@@ -102,7 +114,7 @@ public class PlayerNameTagImpl extends PlayerNameTag {
 
     private boolean shouldBeVisibleTo(Player viewer) {
         if (viewer == null || !viewer.isOnline()) return false;
-        if (viewer.getUniqueId().equals(this.player.getUniqueId()) && !this.showSelf) return false;
+        if (viewer.getUniqueId().equals(this.player.getUniqueId()) && !this.data.shouldShowToSelf()) return false;
         if (!viewer.getWorld().getName().equals(this.player.getWorld().getName())) return false;
 
         if (this.player.isDead()) return false;
@@ -111,15 +123,14 @@ public class PlayerNameTagImpl extends PlayerNameTag {
         return true;
     }
 
-    private Integer getBackground(NameTagDisplayConfiguration config) {
-        String background = config.background();
-        if (background == null || background.equalsIgnoreCase("default")) return null;
-        if (background.equalsIgnoreCase("transparent")) return 0;
-        if (background.startsWith("#")) background = background.substring(1);
-
-        Color color = Color.fromARGB((int) Long.parseLong(background, 16));
-        if (background.length() == 6) color = color.setAlpha(255);
-
-        return color.asARGB();
+    private Component getText() {
+        List<String> lines = this.data.getLines()
+                .stream()
+                .map((line) -> line
+                        .replace("{player}", player.getName())
+                        .replace("{health}", String.valueOf(new DecimalFormat("#.##").format(player.getHealth())))
+                )
+                .toList();
+        return ComponentUtil.render(lines);
     }
 }

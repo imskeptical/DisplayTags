@@ -1,33 +1,28 @@
-package me.skyyiscool.displaytags.api;
+package me.skyyiscool.displaytags.api.nametag;
 
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 public abstract class PlayerNameTag {
     protected Player player;
+    protected NameTagData data;
     protected Set<UUID> viewers;
-
-    protected List<String> lines;
 
     public PlayerNameTag(Player player) {
         this.player = player;
+        this.data = new NameTagData();
         this.viewers = new HashSet<>();
+    }
+
+    public NameTagData getData() {
+        return this.data;
     }
 
     public Player getPlayer() {
         return this.player;
-    }
-
-    public List<String> getLines() {
-        return this.lines;
-    }
-
-    public void setLines(List<String> lines) {
-        this.lines = lines;
     }
 
     public abstract void spawnFor(UUID viewerId);
