@@ -36,9 +36,13 @@ public class Nametag {
         this.viewers = new HashSet<>();
 
         NametagConfig config = plugin.config().getNametagConfig();
-        this.lines = config.getLines();
         this.hideSelf = config.shouldHideSelf();
         this.visibilityDistance = config.getVisibilityDistance();
+
+        List<String> lines = config.getLines();
+        this.lines = lines.stream()
+                .map((line) -> line.replace("{player}", this.player.getName()))
+                .toList();
 
         this.display = new ClientTextDisplay(player.getLocation().setRotation(0, 0));
         this.display.setTranslation(new Vector3f(0, (float) 0.25, 0));
@@ -129,7 +133,7 @@ public class Nametag {
         List<Component> components = new ArrayList<>(lines.size());
         for (String line : lines) {
             String modified = line
-                    .replace("{player}", player.getName())
+                    // This line used to replace the {player} variable, but player name is really static text so has been moved to the class constructor.
                     .replace("{health}", String.valueOf(new DecimalFormat("#.##").format(player.getHealth())));
             if (DependencyHelper.isPlaceholderAPIEnabled()) {
                 modified = PlaceholderAPI.setPlaceholders(player, modified);
