@@ -1,4 +1,2 @@
-- fix: null error in death event ([#21](https://github.com/imskeptical/DisplayTags/pull/21))
-
-# Download
-- Download the plugin from the [Modrinth page](https://modrinth.com/plugin/displaytags/versions)
+- Support for 1.21.11!
+- **MAJOR PERFORMANCE IMPROVEMENT**: Cache name tag text

@@ -4,10 +4,7 @@ import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.protocol.entity.data.EntityData;
 import com.github.retrooper.packetevents.protocol.entity.type.EntityType;
 import com.github.retrooper.packetevents.wrapper.PacketWrapper;
-import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerDestroyEntities;
-import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityMetadata;
-import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSetPassengers;
-import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSpawnEntity;
+import com.github.retrooper.packetevents.wrapper.play.server.*;
 import io.github.retrooper.packetevents.util.SpigotConversionUtil;
 import io.github.retrooper.packetevents.util.SpigotReflectionUtil;
 import org.bukkit.Location;
@@ -76,6 +73,15 @@ public class ClientEntity {
         WrapperPlayServerSetPassengers packet = new WrapperPlayServerSetPassengers(
                 entity.getEntityId(),
                 new int[] { this.entityId }
+        );
+        this.sendPacket(packet, viewer);
+    }
+
+    public void teleportFor(Player viewer) {
+        WrapperPlayServerEntityTeleport packet = new WrapperPlayServerEntityTeleport(
+                this.entityId,
+                SpigotConversionUtil.fromBukkitLocation(this.location),
+                true
         );
         this.sendPacket(packet, viewer);
     }

@@ -51,12 +51,6 @@ public class Nametag {
         return player;
     }
 
-    public void showForAll() {
-        for (Player viewer : Bukkit.getOnlinePlayers()) {
-            this.show(viewer);
-        }
-    }
-
     public void hideForAll() {
         for (Player viewer : Bukkit.getOnlinePlayers()) {
             this.hide(viewer);
@@ -116,6 +110,13 @@ public class Nametag {
         this.display.setText(getText());
         this.display.mount(this.player, viewer);
         this.display.update(viewer);
+    }
+
+    public void teleportForAll() {
+        for (UUID viewerId : this.viewers) {
+            Player viewer = Bukkit.getPlayer(viewerId);
+            this.display.teleportFor(viewer);
+        }
     }
 
     private Component getText() {
