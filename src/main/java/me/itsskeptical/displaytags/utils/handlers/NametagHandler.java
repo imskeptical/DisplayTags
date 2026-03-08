@@ -7,6 +7,7 @@ import me.itsskeptical.displaytags.DisplayTags;
 import me.itsskeptical.displaytags.utils.helpers.DependencyHelper;
 import me.neznamy.tab.api.TabAPI;
 import me.neznamy.tab.api.TabPlayer;
+import me.neznamy.tab.api.event.EventBus;
 import me.neznamy.tab.api.event.player.PlayerLoadEvent;
 import me.neznamy.tab.api.nametag.NameTagManager;
 import net.kyori.adventure.text.Component;
@@ -15,11 +16,15 @@ import org.bukkit.entity.Player;
 public class NametagHandler {
     public static void load() {
         if (DependencyHelper.isTABEnabled()) {
-            TabAPI.getInstance().getEventBus().register(PlayerLoadEvent.class, (event) -> {
+            EventBus eventBus = TabAPI.getInstance().getEventBus();
+            if (eventBus == null) return;
+
+            eventBus.register(PlayerLoadEvent.class, (event) -> {
                 TabPlayer player = event.getPlayer();
                 NameTagManager manager = TabAPI.getInstance().getNameTagManager();
+                if (manager == null) return;
 
-                if (DisplayTags.getInstance().config().getNametagConfig().isEnabled() && manager != null) {
+                if (DisplayTags.getInstance().config().getNametagConfig().isEnabled()) {
                     manager.hideNameTag(player);
                 }
             });

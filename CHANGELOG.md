@@ -1,2 +1,3 @@
 - Support for 1.21.11!
 - **MAJOR PERFORMANCE IMPROVEMENT**: Cache name tag text
+- Fix: null check for TAB's event bus
