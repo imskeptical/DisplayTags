@@ -25,19 +25,18 @@ public class PlayerNameTagImpl extends PlayerNameTag {
     private final TextDisplayWrapper display;
 
     // The name tag text is cached temporarily, and it is only changed when the name tag ticks.
-    private Component cachedText = getText();
+    private Component cachedText;
 
     public PlayerNameTagImpl(Player player) {
         super(player);
         this.display = new TextDisplayWrapper();
 
         NameTagConfiguration config = DisplayTags.get().config().nametag();
-        this.data.setShowToSelf(config.showToSelf());
-        this.data.setVisibilityDistance(config.getVisibilityDistance());
-
         TextDisplay.TextAlignment alignment = TextDisplay.TextAlignment.valueOf(config.getTextAlignment().name());
         Display.Billboard billboard = Display.Billboard.valueOf(config.getBillboard().name());
 
+        this.data.setShowToSelf(config.showToSelf());
+        this.data.setVisibilityDistance(config.getVisibilityDistance());
         this.data.setLines(config.getLines());
         this.data.setTextAlignment(alignment);
         this.data.setBillboard(billboard);
@@ -46,6 +45,8 @@ public class PlayerNameTagImpl extends PlayerNameTag {
         this.data.setBackground(config.getBackground());
         this.data.setTranslation(config.getOffset());
         this.data.setScale(config.getScale());
+
+        this.cachedText = getText();
     }
 
     @Override
