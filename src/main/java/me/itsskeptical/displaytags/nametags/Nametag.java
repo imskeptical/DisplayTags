@@ -136,12 +136,30 @@ public class Nametag {
                     // This line used to replace the {player} variable, but player name is really static text so has been moved to the class constructor.
                     .replace("{health}", String.valueOf(new DecimalFormat("#.##").format(player.getHealth())));
             if (DependencyHelper.isPlaceholderAPIEnabled()) {
-                modified = PlaceholderAPI.setPlaceholders(player, modified);
+                modified = parsePlaceholders(player, modified);
             }
             components.add(ComponentUtils.format(modified));
         }
         return ComponentUtils.join(components);
     }
+    
+    private String parsePlaceholders(Player player, String text) {
+    String previous;
+    String current = text;
+
+    int maxIterations = 5;
+
+    for (int i = 0; i < maxIterations; i++) {
+        previous = current;
+        current = PlaceholderAPI.setPlaceholders(player, current);
+
+        if (current.equals(previous)) {
+            break;
+        }
+    }
+
+    return current;
+}
 
     private int getBackground() {
         String background = plugin.config().getNametagConfig().getBackground();
