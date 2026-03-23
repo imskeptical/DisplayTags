@@ -147,14 +147,14 @@ public class Nametag {
     String previous;
     String current = text;
 
-    int maxIterations = 5; // don't go higher unless you want problems
+    int maxIterations = 5;
 
     for (int i = 0; i < maxIterations; i++) {
         previous = current;
         current = PlaceholderAPI.setPlaceholders(player, current);
 
         if (current.equals(previous)) {
-            break; // no more changes
+            break;
         }
     }
 
