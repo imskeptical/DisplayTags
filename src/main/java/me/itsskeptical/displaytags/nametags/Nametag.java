@@ -6,6 +6,7 @@ import me.itsskeptical.displaytags.DisplayTags;
 import me.itsskeptical.displaytags.config.NametagConfig;
 import me.itsskeptical.displaytags.entities.ClientTextDisplay;
 import me.itsskeptical.displaytags.utils.ComponentUtils;
+import me.itsskeptical.displaytags.utils.PlayerUtils;
 import me.itsskeptical.displaytags.utils.handlers.NametagHandler;
 import me.itsskeptical.displaytags.utils.helpers.DependencyHelper;
 import net.kyori.adventure.text.Component;
@@ -61,7 +62,7 @@ public class Nametag {
     }
 
     public void hideForAll() {
-        for (Player viewer : Bukkit.getOnlinePlayers()) {
+        for (Player viewer : PlayerUtils.getOnlinePlayers()) {
             this.hide(viewer);
         }
     }
@@ -75,7 +76,7 @@ public class Nametag {
             return viewer == null || !viewer.isOnline();
         });
 
-        for (Player viewer : Bukkit.getOnlinePlayers()) {
+        for (Player viewer : PlayerUtils.getOnlinePlayers()) {
             boolean shouldSee = shouldSee(viewer);
             boolean isVisible = this.viewers.contains(viewer.getUniqueId());
 

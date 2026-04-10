@@ -1,7 +1,7 @@
 package me.itsskeptical.displaytags.nametags;
 
+import me.itsskeptical.displaytags.utils.PlayerUtils;
 import me.itsskeptical.displaytags.utils.handlers.NametagHandler;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
@@ -31,7 +31,7 @@ public class NametagManager {
     }
 
     public void remove(Player player) {
-        for (Player viewer : Bukkit.getOnlinePlayers()) {
+        for (Player viewer : PlayerUtils.getOnlinePlayers()) {
             NametagHandler.show(player, viewer);
         }
 
@@ -43,7 +43,7 @@ public class NametagManager {
     }
 
     public void createAll() {
-        for (Player player : Bukkit.getOnlinePlayers()) {
+        for (Player player : PlayerUtils.getOnlinePlayers()) {
             this.create(player);
         }
     }

@@ -4,6 +4,7 @@ import io.papermc.paper.event.player.PlayerClientLoadedWorldEvent;
 import me.itsskeptical.displaytags.DisplayTags;
 import me.itsskeptical.displaytags.nametags.Nametag;
 import me.itsskeptical.displaytags.nametags.NametagManager;
+import me.itsskeptical.displaytags.utils.PlayerUtils;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,6 +20,8 @@ public class PlayerListener implements Listener {
     public void onPlayerLoad(PlayerClientLoadedWorldEvent event) {
         Player player = event.getPlayer();
         if (plugin.config().getNametagConfig().isEnabled()) {
+            if (PlayerUtils.isNPC(player)) return;
+
             if (nametagManager.get(player) != null) {
                 nametagManager.remove(player);
             }
@@ -31,6 +34,8 @@ public class PlayerListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         if (plugin.config().getNametagConfig().isEnabled()) {
             Player player = event.getPlayer();
+            if (PlayerUtils.isNPC(player)) return;
+
             nametagManager.remove(player);
         }
     }
@@ -38,7 +43,10 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         if (plugin.config().getNametagConfig().isEnabled()) {
-            Nametag nametag = nametagManager.get(event.getPlayer());
+            Player player = event.getPlayer();
+            if (PlayerUtils.isNPC(player)) return;
+
+            Nametag nametag = nametagManager.get(player);
             if (nametag == null) return;
 
             nametag.hideForAll();
@@ -48,7 +56,10 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event) {
         if (plugin.config().getNametagConfig().isEnabled()) {
-            Nametag nametag = nametagManager.get(event.getPlayer());
+            Player player = event.getPlayer();
+            if (PlayerUtils.isNPC(player)) return;
+
+            Nametag nametag = nametagManager.get(player);
             if (nametag == null) return;
 
             nametag.teleportForAll();
@@ -59,7 +70,10 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerWorldChange(PlayerChangedWorldEvent event) {
         if (plugin.config().getNametagConfig().isEnabled()) {
-            Nametag nametag = nametagManager.get(event.getPlayer());
+            Player player = event.getPlayer();
+            if (PlayerUtils.isNPC(player)) return;
+
+            Nametag nametag = nametagManager.get(player);
             if (nametag == null) return;
 
             nametag.hideForAll();
@@ -70,11 +84,14 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerGameModeChange(PlayerGameModeChangeEvent event) {
         if (plugin.config().getNametagConfig().isEnabled()) {
-            Nametag nametag = nametagManager.get(event.getPlayer());
+            Player player = event.getPlayer();
+            if (PlayerUtils.isNPC(player)) return;
+
+            Nametag nametag = nametagManager.get(player);
             if (nametag != null) {
                 if (event.getNewGameMode() == GameMode.SPECTATOR) {
                     nametag.hideForAll();
-                } else if (event.getPlayer().getPreviousGameMode() == GameMode.SPECTATOR) {
+                } else if (player.getPreviousGameMode() == GameMode.SPECTATOR) {
                     nametag.updateVisibilityForAll();
                 }
             }
