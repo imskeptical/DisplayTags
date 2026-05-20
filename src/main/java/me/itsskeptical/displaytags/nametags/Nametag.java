@@ -137,6 +137,7 @@ public class Nametag {
                     .replace("{health}", String.valueOf(new DecimalFormat("#.##").format(player.getHealth())));
             if (DependencyHelper.isPlaceholderAPIEnabled()) {
                 modified = PlaceholderAPI.setPlaceholders(player, modified);
+                modified = PlaceholderAPI.setPlaceholders(player, modified);
             }
             components.add(ComponentUtils.format(modified));
         }

@@ -14,7 +14,7 @@
 A lightweight plugin for Minecraft for replacing boring old vanilla Minecraft player nametags with fast & customizable text displays!
 
 ## Features
-- 🔗 **Custom** Player Nametags
+- 🔗 **Custom** Player Nametags 
 - 🔥 **Lightweight & Fast** (powered with packets)
 - ✏️ **Full** Customizability!
 - ☀️ Supports [**MiniMessage Formatting**](https://webui.advntr.dev/)
